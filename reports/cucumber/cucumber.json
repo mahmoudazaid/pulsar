@@ -1,0 +1,883 @@
+[
+  {
+    "line": 1,
+    "elements": [
+      {
+        "before": [
+          {
+            "result": {
+              "duration": 4777543600,
+              "status": "passed"
+            },
+            "match": {
+              "location": "GlobalHooks.startBrowser()"
+            }
+          },
+          {
+            "result": {
+              "duration": 3295581600,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.goToURL()"
+            }
+          },
+          {
+            "result": {
+              "duration": 23955200,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.deleteCookiesBeforeScenario()"
+            }
+          },
+          {
+            "result": {
+              "duration": 138400,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.logBeforeScenario(Scenario)"
+            }
+          }
+        ],
+        "line": 3,
+        "name": "validates presence and availability of all 3 Demo workspaces",
+        "description": "",
+        "id": "demo-analyses;validates-presence-and-availability-of-all-3-demo-workspaces",
+        "after": [
+          {
+            "result": {
+              "duration": 62700,
+              "status": "passed"
+            },
+            "match": {
+              "location": "GlobalHooks.restartBrowserOnFailure()"
+            }
+          },
+          {
+            "result": {
+              "duration": 144900,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.logAfterScenario(Scenario)"
+            }
+          },
+          {
+            "result": {
+              "duration": 27535200,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.deleteCookiesAfterScenario()"
+            }
+          },
+          {
+            "result": {
+              "duration": 124200,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.restartBrowserOnFailure(Scenario)"
+            }
+          }
+        ],
+        "type": "scenario",
+        "keyword": "Scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 2286076100,
+              "status": "passed"
+            },
+            "line": 4,
+            "name": "the user is logged with \"Mahmoud Abuzaid\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "Mahmoud Abuzaid",
+                  "offset": 25
+                }
+              ],
+              "location": "LoginStepDef.loginByUserName(String)"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 6396164100,
+              "status": "passed"
+            },
+            "line": 5,
+            "name": "the user should view the following demo workspaces",
+            "match": {
+              "location": "WorkspacesStepDef.verifyPageSectionsDisplayed(DataTable)"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "Order to Cash"
+                ],
+                "line": 6
+              },
+              {
+                "cells": [
+                  "Purchase to Pay"
+                ],
+                "line": 7
+              },
+              {
+                "cells": [
+                  "ServiceNow Ticketing"
+                ],
+                "line": 8
+              }
+            ],
+            "keyword": "Then "
+          }
+        ]
+      },
+      {
+        "before": [
+          {
+            "result": {
+              "duration": 367900,
+              "status": "passed"
+            },
+            "match": {
+              "location": "GlobalHooks.startBrowser()"
+            }
+          },
+          {
+            "result": {
+              "duration": 453969400,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.goToURL()"
+            }
+          },
+          {
+            "result": {
+              "duration": 22720600,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.deleteCookiesBeforeScenario()"
+            }
+          },
+          {
+            "result": {
+              "duration": 72300,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.logBeforeScenario(Scenario)"
+            }
+          }
+        ],
+        "line": 10,
+        "name": "validates presence and availability of all 3 Demo analyses",
+        "description": "",
+        "id": "demo-analyses;validates-presence-and-availability-of-all-3-demo-analyses",
+        "after": [
+          {
+            "result": {
+              "duration": 64600,
+              "status": "passed"
+            },
+            "match": {
+              "location": "GlobalHooks.restartBrowserOnFailure()"
+            }
+          },
+          {
+            "result": {
+              "duration": 91300,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.logAfterScenario(Scenario)"
+            }
+          },
+          {
+            "result": {
+              "duration": 47340800,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.deleteCookiesAfterScenario()"
+            }
+          },
+          {
+            "result": {
+              "duration": 120700,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.restartBrowserOnFailure(Scenario)"
+            }
+          }
+        ],
+        "type": "scenario",
+        "keyword": "Scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 1596895900,
+              "status": "passed"
+            },
+            "line": 11,
+            "name": "the user is logged with \"Mahmoud Abuzaid\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "Mahmoud Abuzaid",
+                  "offset": 25
+                }
+              ],
+              "location": "LoginStepDef.loginByUserName(String)"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 3530898900,
+              "status": "passed"
+            },
+            "line": 12,
+            "name": "user click on all workspaces",
+            "match": {
+              "location": "WorkspacesStepDef.userClickOnAllWorkspaces()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 340619000,
+              "status": "passed"
+            },
+            "line": 13,
+            "name": "the user should view the following demo analyses",
+            "match": {
+              "location": "WorkspacesStepDef.theUserShouldViewTheFollowingDemoAnalyses(DataTable)"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "Order to Cash"
+                ],
+                "line": 14
+              },
+              {
+                "cells": [
+                  "Purchase to Pay"
+                ],
+                "line": 15
+              },
+              {
+                "cells": [
+                  "ServiceNow Ticketing"
+                ],
+                "line": 16
+              }
+            ],
+            "keyword": "Then "
+          }
+        ]
+      },
+      {
+        "before": [
+          {
+            "result": {
+              "duration": 480600,
+              "status": "passed"
+            },
+            "match": {
+              "location": "GlobalHooks.startBrowser()"
+            }
+          },
+          {
+            "result": {
+              "duration": 644414300,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.goToURL()"
+            }
+          },
+          {
+            "result": {
+              "duration": 22322000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.deleteCookiesBeforeScenario()"
+            }
+          },
+          {
+            "result": {
+              "duration": 89800,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.logBeforeScenario(Scenario)"
+            }
+          }
+        ],
+        "line": 25,
+        "name": "ensuring that the analyses load successfully and display the content correctly",
+        "description": "",
+        "id": "demo-analyses;ensuring-that-the-analyses-load-successfully-and-display-the-content-correctly;;2",
+        "after": [
+          {
+            "result": {
+              "duration": 55500,
+              "status": "passed"
+            },
+            "match": {
+              "location": "GlobalHooks.restartBrowserOnFailure()"
+            }
+          },
+          {
+            "result": {
+              "duration": 79500,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.logAfterScenario(Scenario)"
+            }
+          },
+          {
+            "result": {
+              "duration": 33832200,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.deleteCookiesAfterScenario()"
+            }
+          },
+          {
+            "result": {
+              "duration": 97300,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.restartBrowserOnFailure(Scenario)"
+            }
+          }
+        ],
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 1666279400,
+              "status": "passed"
+            },
+            "line": 19,
+            "name": "the user is logged with \"Mahmoud Abuzaid\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "Mahmoud Abuzaid",
+                  "offset": 25
+                }
+              ],
+              "location": "LoginStepDef.loginByUserName(String)"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 2540915800,
+              "status": "passed"
+            },
+            "line": 20,
+            "name": "user click on all workspaces",
+            "match": {
+              "location": "WorkspacesStepDef.userClickOnAllWorkspaces()"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 5423323100,
+              "status": "passed"
+            },
+            "line": 21,
+            "name": "user open \"SAP ECC - Order to Cash\" chart",
+            "match": {
+              "arguments": [
+                {
+                  "val": "SAP ECC - Order to Cash",
+                  "offset": 11
+                }
+              ],
+              "location": "WorkspacesStepDef.userOpenChart(String)"
+            },
+            "matchedColumns": [
+              0
+            ],
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 2448895600,
+              "status": "passed"
+            },
+            "line": 22,
+            "name": "the chart analyses page is opened",
+            "match": {
+              "location": "WorkspacesStepDef.theChartPageIsOpened()"
+            },
+            "keyword": "Then "
+          }
+        ]
+      },
+      {
+        "before": [
+          {
+            "result": {
+              "duration": 398200,
+              "status": "passed"
+            },
+            "match": {
+              "location": "GlobalHooks.startBrowser()"
+            }
+          },
+          {
+            "result": {
+              "duration": 596477800,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.goToURL()"
+            }
+          },
+          {
+            "result": {
+              "duration": 33567900,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.deleteCookiesBeforeScenario()"
+            }
+          },
+          {
+            "result": {
+              "duration": 62600,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.logBeforeScenario(Scenario)"
+            }
+          }
+        ],
+        "line": 26,
+        "name": "ensuring that the analyses load successfully and display the content correctly",
+        "description": "",
+        "id": "demo-analyses;ensuring-that-the-analyses-load-successfully-and-display-the-content-correctly;;3",
+        "after": [
+          {
+            "result": {
+              "duration": 55000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "GlobalHooks.restartBrowserOnFailure()"
+            }
+          },
+          {
+            "result": {
+              "duration": 75700,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.logAfterScenario(Scenario)"
+            }
+          },
+          {
+            "result": {
+              "duration": 47772100,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.deleteCookiesAfterScenario()"
+            }
+          },
+          {
+            "result": {
+              "duration": 119400,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.restartBrowserOnFailure(Scenario)"
+            }
+          }
+        ],
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 1493204400,
+              "status": "passed"
+            },
+            "line": 19,
+            "name": "the user is logged with \"Mahmoud Abuzaid\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "Mahmoud Abuzaid",
+                  "offset": 25
+                }
+              ],
+              "location": "LoginStepDef.loginByUserName(String)"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 3327383300,
+              "status": "passed"
+            },
+            "line": 20,
+            "name": "user click on all workspaces",
+            "match": {
+              "location": "WorkspacesStepDef.userClickOnAllWorkspaces()"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 2541569600,
+              "status": "passed"
+            },
+            "line": 21,
+            "name": "user open \"SAP ECC - Purchase to Pay\" chart",
+            "match": {
+              "arguments": [
+                {
+                  "val": "SAP ECC - Purchase to Pay",
+                  "offset": 11
+                }
+              ],
+              "location": "WorkspacesStepDef.userOpenChart(String)"
+            },
+            "matchedColumns": [
+              0
+            ],
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 3467301600,
+              "status": "passed"
+            },
+            "line": 22,
+            "name": "the chart analyses page is opened",
+            "match": {
+              "location": "WorkspacesStepDef.theChartPageIsOpened()"
+            },
+            "keyword": "Then "
+          }
+        ]
+      },
+      {
+        "before": [
+          {
+            "result": {
+              "duration": 437300,
+              "status": "passed"
+            },
+            "match": {
+              "location": "GlobalHooks.startBrowser()"
+            }
+          },
+          {
+            "result": {
+              "duration": 420173200,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.goToURL()"
+            }
+          },
+          {
+            "result": {
+              "duration": 24417800,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.deleteCookiesBeforeScenario()"
+            }
+          },
+          {
+            "result": {
+              "duration": 68000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.logBeforeScenario(Scenario)"
+            }
+          }
+        ],
+        "line": 27,
+        "name": "ensuring that the analyses load successfully and display the content correctly",
+        "description": "",
+        "id": "demo-analyses;ensuring-that-the-analyses-load-successfully-and-display-the-content-correctly;;4",
+        "after": [
+          {
+            "result": {
+              "duration": 32500,
+              "status": "passed"
+            },
+            "match": {
+              "location": "GlobalHooks.restartBrowserOnFailure()"
+            }
+          },
+          {
+            "result": {
+              "duration": 200100,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.logAfterScenario(Scenario)"
+            }
+          },
+          {
+            "result": {
+              "duration": 28294500,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.deleteCookiesAfterScenario()"
+            }
+          },
+          {
+            "result": {
+              "duration": 49200,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.restartBrowserOnFailure(Scenario)"
+            }
+          }
+        ],
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 1565562200,
+              "status": "passed"
+            },
+            "line": 19,
+            "name": "the user is logged with \"Mahmoud Abuzaid\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "Mahmoud Abuzaid",
+                  "offset": 25
+                }
+              ],
+              "location": "LoginStepDef.loginByUserName(String)"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 3151703500,
+              "status": "passed"
+            },
+            "line": 20,
+            "name": "user click on all workspaces",
+            "match": {
+              "location": "WorkspacesStepDef.userClickOnAllWorkspaces()"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 1329843700,
+              "status": "passed"
+            },
+            "line": 21,
+            "name": "user open \"ServiceNow Ticketing\" chart",
+            "match": {
+              "arguments": [
+                {
+                  "val": "ServiceNow Ticketing",
+                  "offset": 11
+                }
+              ],
+              "location": "WorkspacesStepDef.userOpenChart(String)"
+            },
+            "matchedColumns": [
+              0
+            ],
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 1731448700,
+              "status": "passed"
+            },
+            "line": 22,
+            "name": "the chart analyses page is opened",
+            "match": {
+              "location": "WorkspacesStepDef.theChartPageIsOpened()"
+            },
+            "keyword": "Then "
+          }
+        ]
+      }
+    ],
+    "name": "Demo Analyses",
+    "description": "",
+    "id": "demo-analyses",
+    "keyword": "Feature",
+    "uri": "Demo-Analyses.feature"
+  },
+  {
+    "line": 1,
+    "elements": [
+      {
+        "before": [
+          {
+            "result": {
+              "duration": 280200,
+              "status": "passed"
+            },
+            "match": {
+              "location": "GlobalHooks.startBrowser()"
+            }
+          },
+          {
+            "result": {
+              "duration": 552491200,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.goToURL()"
+            }
+          },
+          {
+            "result": {
+              "duration": 18735200,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.deleteCookiesBeforeScenario()"
+            }
+          },
+          {
+            "result": {
+              "duration": 50800,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.logBeforeScenario(Scenario)"
+            }
+          }
+        ],
+        "line": 3,
+        "name": "Test login with correct credential",
+        "description": "",
+        "id": "test-celonis-login-page;test-login-with-correct-credential",
+        "after": [
+          {
+            "result": {
+              "duration": 51000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "GlobalHooks.restartBrowserOnFailure()"
+            }
+          },
+          {
+            "result": {
+              "duration": 84000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.logAfterScenario(Scenario)"
+            }
+          },
+          {
+            "result": {
+              "duration": 48195900,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.deleteCookiesAfterScenario()"
+            }
+          },
+          {
+            "result": {
+              "duration": 97300,
+              "status": "passed"
+            },
+            "match": {
+              "location": "ScenarioHooks.restartBrowserOnFailure(Scenario)"
+            }
+          }
+        ],
+        "type": "scenario",
+        "keyword": "Scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 1530640000,
+              "status": "passed"
+            },
+            "line": 4,
+            "name": "the user is logged with \"Mahmoud Abuzaid\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "Mahmoud Abuzaid",
+                  "offset": 25
+                }
+              ],
+              "location": "LoginStepDef.loginByUserName(String)"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 2394497700,
+              "status": "passed"
+            },
+            "line": 5,
+            "name": "the user should view the following sections",
+            "match": {
+              "location": "LoginStepDef.verifyPageSectionsDisplayed(DataTable)"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "Workspaces"
+                ],
+                "line": 6
+              },
+              {
+                "cells": [
+                  "Analyses"
+                ],
+                "line": 7
+              }
+            ],
+            "keyword": "Then "
+          }
+        ]
+      }
+    ],
+    "name": "Test Celonis login page",
+    "description": "",
+    "id": "test-celonis-login-page",
+    "keyword": "Feature",
+    "uri": "test-login.feature"
+  }
+]
