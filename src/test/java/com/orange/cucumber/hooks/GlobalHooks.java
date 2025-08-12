@@ -3,8 +3,10 @@ package com.orange.cucumber.hooks;
 import com.orange.cucumber.runner.TestState;
 import com.orange.selenium.driver.BrowserFactory;
 import com.orange.selenium.driver.CustomWebDriver;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
+
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+
 import org.apache.log4j.Logger;
 
 public class GlobalHooks {

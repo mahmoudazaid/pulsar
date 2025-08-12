@@ -6,29 +6,41 @@
   <groupId>com.orange</groupId>
   <artifactId>orange-bdd</artifactId>
   <version>1.0-SNAPSHOT</version>
-
   <name>orange-bdd</name>
   <url>http://www.example.com</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-    <!-- Align compiler to Java 8 -->
+    <!-- Java 8 to match project -->
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
 
-    <cucumber.version>1.2.5</cucumber.version>
+    <!-- Modern Cucumber + TestNG -->
+    <cucumber.version>7.27.0</cucumber.version>
+    <testng.version>7.11.0</testng.version>
+
+    <!-- Keep your existing libs/versions -->
     <selenium.version>3.141.59</selenium.version>
     <webdrivermanager>4.4.1</webdrivermanager>
     <log4j-version>1.2.17</log4j-version>
-    <maven-compiler>3.8.1</maven-compiler>
-
-    <!-- TestNG -->
-    <testng.version>7.11.0</testng.version>
   </properties>
 
   <dependencies>
-    <!-- TestNG instead -->
+    <!-- Cucumber 7.x + TestNG -->
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-java</artifactId>
+      <version>${cucumber.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-testng</artifactId>
+      <version>${cucumber.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- TestNG (replaces JUnit) -->
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
@@ -36,42 +48,19 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Cucumber v1.x -->
+    <!-- Selenium + WebDriverManager -->
     <dependency>
-      <groupId>info.cukes</groupId>
-      <artifactId>cucumber-java</artifactId>
-      <version>${cucumber.version}</version>
-      <scope>test</scope>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>${selenium.version}</version>
     </dependency>
-
-    <!-- cucumber-testng -->
-    <dependency>
-      <groupId>info.cukes</groupId>
-      <artifactId>cucumber-testng</artifactId>
-      <version>${cucumber.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>info.cukes</groupId>
-      <artifactId>cucumber-picocontainer</artifactId>
-      <version>${cucumber.version}</version>
-      <scope>test</scope>
-    </dependency>
-
     <dependency>
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>webdrivermanager</artifactId>
       <version>${webdrivermanager}</version>
     </dependency>
 
-    <!-- Selenium -->
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-java</artifactId>
-      <version>${selenium.version}</version>
-    </dependency>
-
+    <!-- (kept) -->
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
@@ -80,70 +69,31 @@
   </dependencies>
 
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>3.0.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
-        </plugin>
-        <!-- Surefire runs TestNG/Cucumber TestRunner -->
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.1</version>
-          <configuration>
-            <!-- Pick up your TestNG-based Cucumber runner(s) -->
-            <includes>
-              <include>**/*Runner*.java</include>
-              <include>**/*Test*.java</include>
-            </includes>
-
-            <!-- Pass env (from profiles or -Denv=...) to tests -->
-            <systemPropertyVariables>
-              <env>${env}</env>
-            </systemPropertyVariables>
-
-            <testFailureIgnore>true</testFailureIgnore>
-          </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>3.0.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>2.5.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>3.7.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.0.0</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-
     <plugins>
+      <!-- Compiler -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven-compiler}</version>
+        <version>3.8.1</version>
         <configuration>
           <source>${maven.compiler.source}</source>
           <target>${maven.compiler.target}</target>
+        </configuration>
+      </plugin>
+
+      <!-- Surefire: actually active (not only in pluginManagement) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.3</version>
+        <configuration>
+          <includes>
+            <include>**/*Runner*.java</include>
+            <include>**/*Test*.java</include>
+          </includes>
+          <systemPropertyVariables>
+            <env>${env}</env>
+          </systemPropertyVariables>
         </configuration>
       </plugin>
     </plugins>
@@ -153,15 +103,11 @@
   <profiles>
     <profile>
       <id>dev</id>
-      <properties>
-        <env>dev</env>
-      </properties>
+      <properties><env>dev</env></properties>
     </profile>
     <profile>
       <id>staging</id>
-      <properties>
-        <env>staging</env>
-      </properties>
+      <properties><env>staging</env></properties>
     </profile>
   </profiles>
 </project>
