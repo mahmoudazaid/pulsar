@@ -1,8 +1,8 @@
-package com.celonis.selenium.page;
+package com.orange.selenium.page;
 
-import com.celonis.selenium.driver.CustomWebDriver;
-import com.celonis.selenium.page.core.PageObject;
-import static com.celonis.selenium.locator.LoginPageLocator.*;
+import com.orange.selenium.driver.CustomWebDriver;
+import com.orange.selenium.page.core.PageObject;
+import static com.orange.selenium.locator.LoginPageLocator.*;
 
 public class LogInPage extends PageObject {
     public LogInPage(CustomWebDriver driver) {

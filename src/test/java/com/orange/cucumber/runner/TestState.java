@@ -1,6 +1,6 @@
-package com.celonis.cucumber.runner;
+package com.orange.cucumber.runner;
 
-import com.celonis.selenium.driver.CustomWebDriver;
+import com.orange.selenium.driver.CustomWebDriver;
 
 public class TestState {
     private CustomWebDriver driver;

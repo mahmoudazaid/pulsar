@@ -1,4 +1,4 @@
-package com.celonis.utils;
+package com.orange.utils;
 
 import java.io.IOException;
 import java.io.InputStream;

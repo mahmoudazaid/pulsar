@@ -1,9 +1,9 @@
-package com.celonis.selenium.page;
+package com.orange.selenium.page;
 
-import com.celonis.selenium.driver.CustomWebDriver;
-import com.celonis.selenium.page.core.PageObject;
+import com.orange.selenium.driver.CustomWebDriver;
+import com.orange.selenium.page.core.PageObject;
 
-import static com.celonis.selenium.locator.WorkspacesLocator.*;
+import static com.orange.selenium.locator.WorkspacesLocator.*;
 
 public class WorkspacesPage extends PageObject {
     public WorkspacesPage(CustomWebDriver driver) {

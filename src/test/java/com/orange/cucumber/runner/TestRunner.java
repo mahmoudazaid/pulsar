@@ -1,21 +1,11 @@
-package com.celonis.cucumber.runner;
+// src/test/java/com/orange/cucumber/runner/TestRunner.java
+import io.cucumber.testng.AbstractTestNGCucumberTests;
+import io.cucumber.testng.CucumberOptions;
 
-
-import cucumber.api.CucumberOptions;
-import cucumber.api.junit.Cucumber;
-import org.junit.runner.RunWith;
-
-@RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"src/test/resources/features"},
-        glue = {
-                "com.celonis.cucumber.stepDef",
-                "com.celonis.cucumber.hooks"
-        },
-        plugin = {
-                "json:target/reports/cucumber/cucumber.json",
-                "html:target/reports/cucumber/cucumber.html"
-        }
+  features = "src/test/resources/features",
+  glue = "com.orange",
+  plugin = {"pretty", "json:target/cucumber.json"},
+  tags = "@cart"
 )
-public class TestRunner {
-}
+public class TestRunner extends AbstractTestNGCucumberTests {}

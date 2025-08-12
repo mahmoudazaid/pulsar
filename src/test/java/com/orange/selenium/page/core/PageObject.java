@@ -1,6 +1,6 @@
-package com.celonis.selenium.page.core;
+package com.orange.selenium.page.core;
 
-import com.celonis.selenium.driver.CustomWebDriver;
+import com.orange.selenium.driver.CustomWebDriver;
 import org.apache.log4j.Logger;
 
 public class PageObject {

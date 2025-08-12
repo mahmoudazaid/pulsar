@@ -1,6 +1,6 @@
-package com.celonis.selenium.driver;
+package com.orange.selenium.driver;
 
-import com.celonis.selenium.locator.core.Locator;
+import com.orange.selenium.locator.core.Locator;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

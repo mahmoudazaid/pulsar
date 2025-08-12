@@ -1,7 +1,7 @@
-package com.celonis.selenium.locator;
+package com.orange.selenium.locator;
 
-import com.celonis.selenium.locator.core.I18nLocator;
-import com.celonis.selenium.locator.core.Locator;
+import com.orange.selenium.locator.core.I18nLocator;
+import com.orange.selenium.locator.core.Locator;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 

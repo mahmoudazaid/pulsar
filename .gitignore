@@ -1,11 +1,43 @@
+# --- Maven build outputs ---
 target/
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# Maven Versions/Release plugin backups
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
 pom.xml.next
 release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
+
+# Maven Surefire/Failsafe reports
+surefire-reports/
+failsafe-reports/
+*.dumpstream
+
+# Cucumber/Extent/Allure reports (common locations)
+reports/
+reports/**/*
+target/cucumber.json
+target/cucumber-html-reports/
+target/extent-report*/
+allure-results/
+allure-report/
+
+# Maven wrapper (keep scripts, ignore jar + timings)
 .mvn/timing.properties
-# https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
+
+# --- IDE / OS noise ---
+# IntelliJ
+.idea/
+*.iml
+# Eclipse
+.project
+.classpath
+.settings/
+# VS Code
+.vscode/
+# macOS / Windows
+.DS_Store
+Thumbs.db

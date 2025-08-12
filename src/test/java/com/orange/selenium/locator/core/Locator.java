@@ -1,4 +1,4 @@
-package com.celonis.selenium.locator.core;
+package com.orange.selenium.locator.core;
 
 import org.openqa.selenium.By;
 

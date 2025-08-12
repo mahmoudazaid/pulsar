@@ -1,14 +1,14 @@
-package com.celonis.cucumber.hooks;
+package com.orange.cucumber.hooks;
 
-import com.celonis.cucumber.runner.TestState;
-import com.celonis.selenium.driver.BrowserFactory;
-import com.celonis.utils.SystemProperties;
+import com.orange.cucumber.runner.TestState;
+import com.orange.selenium.driver.BrowserFactory;
+import com.orange.utils.SystemProperties;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import org.apache.log4j.Logger;
 
-import static com.celonis.selenium.locator.LoginPageLocator.LOADING_ELEMENT;
+import static com.orange.selenium.locator.LoginPageLocator.LOADING_ELEMENT;
 
 public class ScenarioHooks {
     private static final Logger logger = Logger.getLogger(ScenarioHooks.class.getName());

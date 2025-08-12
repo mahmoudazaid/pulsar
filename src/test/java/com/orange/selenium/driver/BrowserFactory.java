@@ -1,6 +1,6 @@
-package com.celonis.selenium.driver;
+package com.orange.selenium.driver;
 
-import com.celonis.utils.SystemProperties;
+import com.orange.utils.SystemProperties;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;

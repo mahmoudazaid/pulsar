@@ -1,6 +1,6 @@
-package com.celonis.cucumber.stepDef;
+package com.orange.cucumber.stepDef;
 
-import com.celonis.cucumber.runner.TestState;
+import com.orange.cucumber.runner.TestState;
 import org.apache.log4j.Logger;
 
 public class AbstractStepDef {

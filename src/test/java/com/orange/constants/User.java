@@ -1,4 +1,4 @@
-package com.celonis.constants;
+package com.orange.constants;
 
 import org.apache.log4j.Logger;
 
