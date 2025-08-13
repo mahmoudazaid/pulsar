@@ -43,9 +43,8 @@ src/
         │   ├── dev.properties
         │   └── staging.properties
         └── features/                   # Cucumber feature files
-            ├── stackdemo_cart_basic.feature
-            └── stackdemo_cart_operations.feature
-```
+            └── stackdemo_cart_basic.feature
+            ```
 
 ## Setup Instructions
 
@@ -123,12 +122,6 @@ The framework includes comprehensive test scenarios for cart operations:
 
 ### Basic Cart Operations (`stackdemo_cart_basic.feature`)
 - Add single item to cart
-- Add multiple items to cart
-- Update item quantity
-- Remove items from cart
-- Proceed to checkout
-- Validate out-of-stock items
-- Verify cart total calculations
 
 ## Test Execution Reports
 
@@ -146,9 +139,8 @@ JSON format report available at `target/cucumber.json` for integration with othe
 ## Framework Components
 
 ### Page Objects
-- `LogInPage.java` - Login page interactions
-- `WorkspacesPage.java` - Workspace management
-- `PageObject.java` - Base page object class
+- `CartPage.java` - Cart interactions
+- `HomePage.java` - Home management
 
 ### Step Definitions
 - `AbstractStepDef.java` - Base step definition class
