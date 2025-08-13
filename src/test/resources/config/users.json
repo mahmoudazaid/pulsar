@@ -1,0 +1,12 @@
+{
+  "users": {
+    "demouser": {
+      "username": "demouser",
+      "password": "testingisfun99",
+      "email": "demouser@example.com",
+      "firstName": "Demo",
+      "lastName": "User",
+      "role": "customer"
+    }
+  }
+} 
