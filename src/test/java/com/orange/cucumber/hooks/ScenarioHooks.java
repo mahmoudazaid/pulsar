@@ -1,7 +1,6 @@
 package com.orange.cucumber.hooks;
 
 import com.orange.cucumber.runner.TestState;
-import com.orange.selenium.driver.BrowserFactory;
 import com.orange.utils.SystemProperties;
 
 import io.cucumber.java.After;
@@ -10,27 +9,22 @@ import io.cucumber.java.Scenario;
 
 import org.apache.log4j.Logger;
 
-import static com.orange.selenium.locator.LoginPageLocator.LOADING_ELEMENT;
-
 public class ScenarioHooks {
     private static final Logger logger = Logger.getLogger(ScenarioHooks.class.getName());
-    private static final String URL = SystemProperties.getApplicationUrl();
 
     private final TestState state;
 
     public ScenarioHooks(TestState state) {
-        if (state.getDriver().getSeleniumWebDriver().toString().contains("(null)")) {
-            // Create the shared selenium web driver
-            state.setDriver(BrowserFactory.getBrowser());
-        }
         this.state = state;
     }
 
     @Before(order = 1)
-    public void goToURL() throws Exception {
+    public void goToURL() {
         try {
-            state.getDriver().goToUrl(URL);
-            state.getDriver().waitInvisibilityOf(LOADING_ELEMENT, 120);
+            String url = SystemProperties.getApplicationUrl();
+            if (state.getDriver() != null) {
+                state.getDriver().goToUrl(url);
+            }
         } catch (Exception ex) {
             logger.info("Problem happened when opening page");
             logger.info(ex.getMessage());
@@ -41,7 +35,11 @@ public class ScenarioHooks {
     public void deleteCookiesBeforeScenario() {
         logger.info("delete cookies before");
         if (state.getDriver() != null) {
-            state.getDriver().deleteAllCookies();
+            try {
+                state.getDriver().deleteAllCookies();
+            } catch (Exception e) {
+                logger.warn("Could not delete cookies: " + e.getMessage());
+            }
         }
     }
 
@@ -56,12 +54,10 @@ public class ScenarioHooks {
         logger.info("screenshot");
         if (scenario.isFailed()) {
             try {
-                if (state.getDriver() != null) {
-                    logger.info("stop browser");
-                    state.getDriver().quit();
-                }
+                // Don't quit the browser on failure - let it continue for other tests
+                logger.info("Test failed but keeping browser alive for other tests");
             } catch (Exception ex) {
-                logger.error(String.format("stop browser because: %s", ex.getMessage()));
+                logger.error(String.format("Error handling test failure: %s", ex.getMessage()));
             }
         }
     }
@@ -70,7 +66,11 @@ public class ScenarioHooks {
     public void deleteCookiesAfterScenario() {
         logger.info("delete cookies after");
         if (state.getDriver() != null) {
-            state.getDriver().deleteAllCookies();
+            try {
+                state.getDriver().deleteAllCookies();
+            } catch (Exception e) {
+                logger.warn("Could not delete cookies: " + e.getMessage());
+            }
         }
     }
 

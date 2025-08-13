@@ -26,6 +26,9 @@ public class SystemProperties {
         return systemProps;
     }
 
+    public static String getProperty(String key) {
+        return SYSTEM_PROPS.getProperty(key);
+    }
 
     public static String getSeleniumBrowser() {
         String seleniumBrowser = SYSTEM_PROPS.getProperty("selenium.browser");

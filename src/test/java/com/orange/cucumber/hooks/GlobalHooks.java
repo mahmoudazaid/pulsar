@@ -22,7 +22,6 @@ public class GlobalHooks {
         this.localState = localState;
     }
 
-
     @Before(order = 0)
     public void startBrowser() {
         if (!executed) {
@@ -33,25 +32,22 @@ public class GlobalHooks {
             executed = true;
         }
 
-        // Register the afterAll() method
-        Runtime.getRuntime().addShutdownHook(new Thread(this::stopBrowser));
-
         logger.info("set driver");
         localState.setDriver(globalDriver);
         logger.info("driver set");
     }
 
-    private void stopBrowser() {
-        logger.info("stop browser");
-        if (localState.getDriver() != null) {
-            localState.getDriver().quit();
-        }
-    }
-
     @After(order = 7)
-    public void restartBrowserOnFailure() {
-        if (localState.getDriver() != null) {
-            globalDriver = localState.getDriver();
+    public void cleanupAfterAllTests() {
+        logger.info("All tests completed, cleaning up browser");
+        if (globalDriver != null) {
+            try {
+                globalDriver.quit();
+                globalDriver = null;
+                executed = false;
+            } catch (Exception e) {
+                logger.warn("Error quitting browser: " + e.getMessage());
+            }
         }
     }
 }

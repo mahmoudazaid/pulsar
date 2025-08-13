@@ -5,23 +5,22 @@ import com.orange.selenium.locator.core.Locator;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 
-public enum WorkspacesLocator implements Locator, I18nLocator {
-    ALL_WORKSPACES(By.linkText("All Workspaces")),
-    WORKSPACES("//span[contains(text(),'%s')]"),
-    ANALYSES("//h3[contains(text(),'%s')]"),
-    CHART_ANALYSES("//h3[contains(text(),'%s')]/../../../..//a"),
-    ANALYSES_MENUE(By.cssSelector("div.analysis-menu"));
+public enum CartPageLocator implements Locator, I18nLocator {
+    // Product catalog locators
+    PRODUCT_CATALOG(By.xpath("//div[@class='shelf-container']")),
+    ADD_TO_CART_BUTTON("//p[@class='shelf-item__title' and (text()='%s')]/..//div[contains(text(),'Add to cart')]"),
+    CART_ITEM("//div[@class='float-cart__content']//*[text()='%s']"),
+    CART_COUNT(By.xpath("//span[@class='bag__quantity'"));
 
-    static Logger logger = Logger.getLogger(WorkspacesLocator.class.getName());
+    static final Logger logger = Logger.getLogger(CartPageLocator.class.getName());
     private By locator;
     private String key;
 
-
-    WorkspacesLocator(By locator) {
+    CartPageLocator(By locator) {
         this.locator = locator;
     }
 
-    WorkspacesLocator(String key) {
+    CartPageLocator(String key) {
         this.key = key;
     }
 
@@ -45,4 +44,4 @@ public enum WorkspacesLocator implements Locator, I18nLocator {
         logger.trace("selector");
         return (By.xpath(String.format(key, index)));
     }
-}
+} 
