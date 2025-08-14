@@ -3,7 +3,6 @@ package com.orange.selenium.page;
 import com.orange.selenium.driver.CustomWebDriver;
 import com.orange.selenium.page.core.PageObject;
 import static com.orange.selenium.locator.HomePageLocator.*;
-import org.openqa.selenium.WebElement;
 import org.apache.log4j.Logger;
 
 public class HomePage extends PageObject {

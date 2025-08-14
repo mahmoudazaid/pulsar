@@ -2,7 +2,6 @@ package com.orange.cucumber.stepDef.ui;
 
 import com.orange.cucumber.runner.TestState;
 import com.orange.selenium.page.HomePage;
-import com.orange.utils.SystemProperties;
 import io.cucumber.java.en.Given;
 import org.apache.log4j.Logger;
 
