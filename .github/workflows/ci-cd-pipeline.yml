@@ -74,14 +74,24 @@ jobs:
       # Print Java and Maven versions
       - name: ℹ️ Display versions
         run: |
+          echo "🔍 Environment Information:"
+          echo "=========================="
           echo "Java version:"
           java -version
+          echo ""
           echo "Maven version:"
           mvn -version
+          echo ""
           echo "Current directory:"
           pwd
+          echo ""
           echo "Directory contents:"
           ls -la
+          echo ""
+          echo "Maven compiler configuration:"
+          mvn help:evaluate -Dexpression=project.build.sourceEncoding -q -DforceStdout || echo "Could not read Maven config"
+          echo "Java source version: $(mvn help:evaluate -Dexpression=maven.compiler.source -q -DforceStdout || echo 'Unknown')"
+          echo "Java target version: $(mvn help:evaluate -Dexpression=maven.compiler.target -q -DforceStdout || echo 'Unknown')"
           
       # Compile project
       - name: 🔨 Compile project
