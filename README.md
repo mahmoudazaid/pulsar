@@ -1,4 +1,8 @@
-# 🧪 Orange BDD Testing Framework
+# 🧪 Orange BDD Framework
+
+> **Latest Update**: Enhanced CI/CD pipeline with daily automation and Java 8 compatibility fixes
+
+A comprehensive BDD (Behavior Driven Development) test automation framework built with Java, Cucumber, TestNG, and Selenium. This framework supports both UI and API testing with a clean, maintainable architecture.
 
 ## 🚀 **Overview**
 
@@ -92,50 +96,14 @@ git clone <your-repository-url>
 cd orange-bdd
 ```
 
-### **2. Install Required Extensions in Cursor IDE**
-
-Open Cursor IDE and install these extensions:
-
-1. **🥒 Cucumber (Gherkin)** - Official Cucumber extension
-2. **☕ Extension Pack for Java** - Java language support
-3. **📦 Maven for Java** - Maven project support
-4. **🧪 Test Runner for Java** - Test execution and debugging
-5. **🔍 Test Explorer UI** - Test discovery interface
-
-**How to install:**
-- Press `Ctrl+Shift+X` (Windows/Linux) or `Cmd+Shift+X` (macOS)
-- Search for each extension name
-- Click Install and reload Cursor IDE
-
-### **3. Verify Project Structure**
+### **2. Verify Project Structure**
 ```bash
 mvn clean compile test-compile
 ```
 
 ## 🎮 **Running Tests**
 
-### **Method 1: Using Run and Debug Panel (Recommended)**
-
-1. **Click the Run and Debug icon** in the left sidebar (▶️ icon)
-2. **Select your desired configuration** from the dropdown:
-   - 🧪 **UI Tests** - UI testing with browser
-   - 🔌 **API Tests** - API testing without browser
-   - 🚀 **All Tests** - Complete test suite
-3. **Click the green play button** ▶️ to run tests
-4. **Click the bug button** 🐛 to debug with breakpoints
-
-### **Method 2: Using Command Palette**
-
-1. **Press `Ctrl+Shift+P`** (Windows/Linux) or `Cmd+Shift+P` (macOS)
-2. **Type:** `Debug: Start Debugging`
-3. **Select** your desired configuration
-
-### **Method 3: Using Keyboard Shortcut**
-
-1. **Press `F5`** to start debugging
-2. **Select** your desired configuration from the dropdown
-
-### **Method 4: Using Maven Commands**
+### **Method 1: Using Maven Commands (Recommended)**
 
 ```bash
 # UI tests (with browser)
@@ -144,21 +112,31 @@ mvn clean test -Dtest=UICucumberRunner
 # API tests (no browser)
 mvn clean test -Dtest=APICucumberRunner
 
-# All tests
-mvn clean test -Dtest=TestRunner
+# All tests (runs both UI and API sequentially)
+mvn clean test
 
 # Run with specific environment
 mvn clean test -Dtest=APICucumberRunner -Denv=staging
 ```
 
-### **Method 5: Using Tasks**
+### **Method 2: Using Your IDE's Test Runner**
 
-1. **Press `Ctrl+Shift+P`** (Windows/Linux) or `Cmd+Shift+P` (macOS)
-2. **Type:** `Tasks: Run Task`
-3. **Select** your desired task:
-   - 🧪 **Run UI Tests**
-   - 🔌 **Run API Tests**
-   - 🚀 **Run All Tests**
+Most modern IDEs (IntelliJ IDEA, Eclipse, VS Code) can run Maven tests directly:
+
+1. **Right-click on the test class** in your IDE
+2. **Select "Run"** or "Debug"
+3. **Choose the appropriate runner:**
+   - `UICucumberRunner` for UI tests
+   - `APICucumberRunner` for API tests
+   - `TestRunner` for all tests
+
+### **Method 3: Using IDE Run Configurations**
+
+Create run configurations in your IDE:
+
+1. **Create a new Maven run configuration**
+2. **Set the command:** `clean test -Dtest=UICucumberRunner`
+3. **Save and reuse** for different test types
 
 ## 🎯 **Test Configurations Explained**
 
@@ -176,12 +154,11 @@ mvn clean test -Dtest=APICucumberRunner -Denv=staging
 - **Use Case:** When you want to test API endpoints without browser overhead
 - **Features:** Runs all tests from `features/api/` folder
 
-### **🚀 All Tests Configuration**
-- **Main Class:** `TestRunner`
-- **Tags:** `not @ignore`
-- **Browser:** ✅ Starts browser (includes UI tests)
+### **🚀 Complete Test Suite**
+- **Command:** `mvn clean test`
+- **Execution:** Runs both UI and API tests sequentially
 - **Use Case:** When you want to run the complete test suite
-- **Features:** Runs both UI and API tests from all feature folders
+- **Features:** Executes all tests from all feature folders
 
 ## 🏷️ **Tagging Strategy**
 
@@ -305,37 +282,37 @@ public class CartStepDef extends AbstractStepDef {
 ### **Common Issues**
 
 1. **Tests Not Running**
-   - Verify Java extension is installed and enabled
+   - Verify Java is properly installed and configured
    - Check Maven project structure
    - Run `mvn clean compile` first
 
 2. **Feature Files Not Recognized**
-   - Install Cucumber (Gherkin) extension
-   - Check file associations
+   - Check file associations in your IDE
    - Verify feature files are in correct folders
+   - Ensure Cucumber dependencies are in pom.xml
 
 3. **Browser Not Starting for UI Tests**
-   - Verify you selected "🧪 UI Tests" configuration
+   - Verify you're using the correct test runner (`UICucumberRunner`)
    - Check Selenium dependencies
    - Verify WebDriver configuration
 
 4. **API Tests Taking Too Long**
-   - Verify you selected "🔌 API Tests" configuration
+   - Verify you're using the correct test runner (`APICucumberRunner`)
    - Check API endpoint accessibility
    - Verify authentication token
 
 ### **Debug Steps**
-1. **Check Output panel** for error messages
-2. **Verify Java extension** is working
+1. **Check console output** for error messages
+2. **Verify Java installation** and PATH configuration
 3. **Check Maven** project structure
 4. **Verify Cucumber** dependencies in pom.xml
 
 ## 🎉 **Benefits**
 
 ### **✅ Professional Setup**
-- **Dedicated run configurations** for different test types
+- **Dedicated test runners** for different test types
 - **Clear separation** between UI and API testing
-- **Modern IDE experience** with Cursor IDE
+- **Modern testing framework** with Cucumber and TestNG
 - **Integrated debugging** support
 
 ### **✅ Scalability**
@@ -361,7 +338,7 @@ mvn clean compile
 # Run tests
 mvn clean test -Dtest=UICucumberRunner      # UI tests
 mvn clean test -Dtest=APICucumberRunner     # API tests
-mvn clean test -Dtest=TestRunner            # All tests
+mvn clean test                               # All tests
 
 # Open reports
 ./open-reports.sh
@@ -372,10 +349,10 @@ mvn clean test -Dtest=TestRunner            # All tests
 - **Cucumber Documentation:** https://cucumber.io/docs
 - **Selenium Documentation:** https://selenium.dev/documentation/
 - **Maven Documentation:** https://maven.apache.org/guides/
-- **Cursor IDE Documentation:** https://cursor.sh/docs
+- **TestNG Documentation:** https://testng.org/doc/
 
 ---
 
-**🎯 Pro Tip:** Use the Run and Debug panel as your primary way to execute tests. The separate configurations make it easy to switch between UI and API testing without confusion, providing a professional-grade testing experience!
+**🎯 Pro Tip:** Use Maven commands as your primary way to execute tests. The separate test runners make it easy to switch between UI and API testing without confusion, providing a professional-grade testing experience!
 
 **Happy testing! 🚀**
