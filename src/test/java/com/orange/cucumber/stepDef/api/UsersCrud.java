@@ -78,25 +78,21 @@ public class UsersCrud extends BaseApiTest {
     public void iPrepareTestUserData() {
         testUser = userApiService.createTestUser();
         Assert.assertNotNull(testUser, "Test user should be created");
-        System.out.println("✅ Test user data prepared: " + testUser.getName());
+        System.out.println("✅ Test user data prepared:");
+        System.out.println("   📝 Name: " + testUser.getName());
+        System.out.println("   📧 Email: " + testUser.getEmail());
+        System.out.println("   👤 Gender: " + testUser.getGender());
+        System.out.println("   🟢 Status: " + testUser.getStatus());
     }
     
     // Create user steps
-    @When("I send a POST request to create a new user with the following data:")
-    public void iSendAPostRequestToCreateANewUserWithTheFollowingData(io.cucumber.datatable.DataTable dataTable) throws IOException, InterruptedException {
-        List<List<String>> rows = dataTable.asLists();
-        List<String> headers = rows.get(0);
-        List<String> values = rows.get(1);
+    @When("I send a POST request to create a new user")
+    public void iSendAPostRequestToCreateANewUser() throws IOException, InterruptedException {
+        // Use the prepared test user data
+        Assert.assertNotNull(testUser, "Test user should be prepared before creating");
         
-        User user = new User(
-            values.get(0), // name
-            values.get(1), // email
-            values.get(2), // gender
-            values.get(3)  // status
-        );
-        
-        lastResponse = userApiService.createUser(user);
-        System.out.println("📤 Created user: " + user.getName());
+        lastResponse = userApiService.createUser(testUser);
+        System.out.println("📤 Created user: " + testUser.getName());
         
         // Add to cleanup list
         if (lastResponse.statusCode() == 201) {
@@ -115,6 +111,16 @@ public class UsersCrud extends BaseApiTest {
     @Then("the response status code should be {int}")
     public void theResponseStatusCodeShouldBe(int expectedStatusCode) {
         Assert.assertNotNull(lastResponse, "Response should exist");
+        
+        // Log the actual response for debugging
+        System.out.println("🔍 Actual Response Status: " + lastResponse.statusCode());
+        System.out.println("🔍 Expected Status: " + expectedStatusCode);
+        
+        if (lastResponse.statusCode() != expectedStatusCode) {
+            System.out.println("🔍 Response Body: " + lastResponse.body());
+            System.out.println("🔍 Response Headers: " + lastResponse.headers());
+        }
+        
         Assert.assertEquals(lastResponse.statusCode(), expectedStatusCode, 
             "Expected status code " + expectedStatusCode + ", but got " + lastResponse.statusCode());
         System.out.println("✅ Response status code: " + lastResponse.statusCode());

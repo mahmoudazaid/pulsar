@@ -26,7 +26,7 @@ public class ApiConfig {
         properties = new Properties();
         
         // Load system properties (main resources)
-        loadProperties(SYSTEM_CONFIG_FILE);
+        loadProperties();
         
         // Load system properties (can override file properties)
         properties.putAll(System.getProperties());
@@ -38,16 +38,16 @@ public class ApiConfig {
     /**
      * Load properties from a specific file
      */
-    private static void loadProperties(String configFile) {
-        try (InputStream inputStream = ApiConfig.class.getClassLoader().getResourceAsStream(configFile)) {
+    private static void loadProperties() {
+        try (InputStream inputStream = ApiConfig.class.getClassLoader().getResourceAsStream(ApiConfig.SYSTEM_CONFIG_FILE)) {
             if (inputStream != null) {
                 properties.load(inputStream);
-                System.out.println("✅ Loaded configuration from: " + configFile);
+                System.out.println("✅ Loaded configuration from: " + ApiConfig.SYSTEM_CONFIG_FILE);
             } else {
-                System.err.println("❌ Configuration file not found: " + configFile);
+                System.err.println("❌ Configuration file not found: " + ApiConfig.SYSTEM_CONFIG_FILE);
             }
         } catch (IOException e) {
-            System.err.println("❌ Error loading configuration from " + configFile + ": " + e.getMessage());
+            System.err.println("❌ Error loading configuration from " + ApiConfig.SYSTEM_CONFIG_FILE + ": " + e.getMessage());
         }
     }
     
@@ -57,15 +57,7 @@ public class ApiConfig {
     public static String getEnvironment() {
         return currentEnvironment;
     }
-    
-    /**
-     * Set the environment
-     */
-    public static void setEnvironment(String environment) {
-        currentEnvironment = environment;
-        loadConfiguration(); // Reload configuration
-    }
-    
+
     /**
      * Get a string property
      */
@@ -81,13 +73,6 @@ public class ApiConfig {
     }
     
     /**
-     * Get an integer property
-     */
-    public static int getInt(String key) {
-        return Integer.parseInt(properties.getProperty(key));
-    }
-    
-    /**
      * Get an integer property with default value
      */
     public static int getInt(String key, int defaultValue) {
@@ -96,13 +81,6 @@ public class ApiConfig {
         } catch (NumberFormatException e) {
             return defaultValue;
         }
-    }
-    
-    /**
-     * Get a boolean property
-     */
-    public static boolean getBoolean(String key) {
-        return Boolean.parseBoolean(properties.getProperty(key));
     }
     
     /**
@@ -138,31 +116,17 @@ public class ApiConfig {
     }
     
     /**
-     * Get connection timeout
+     * Get connection timeout in milliseconds
      */
     public static int getConnectionTimeout() {
-        return getInt("api.connection.timeout", 10000);
+        return getInt("api.timeout.connection", 30000);
     }
     
     /**
-     * Get read timeout
-     */
-    public static int getReadTimeout() {
-        return getInt("api.read.timeout", 30000);
-    }
-    
-    /**
-     * Get rate limit delay
+     * Get rate limit delay in milliseconds
      */
     public static int getRateLimitDelay() {
-        return getInt("api.rate.limit.delay", 1000);
-    }
-    
-    /**
-     * Get expected status code for operation
-     */
-    public static int getExpectedStatus(String operation) {
-        return getInt("api.expected.status." + operation, 200);
+        return getInt("api.rate.limit.delay", 0);
     }
     
     /**
@@ -170,13 +134,6 @@ public class ApiConfig {
      */
     public static String getContentType() {
         return getString("api.content.type.json", "application/json");
-    }
-    
-    /**
-     * Get accept header
-     */
-    public static String getAcceptHeader() {
-        return getString("api.accept.json", "application/json");
     }
     
     /**
@@ -191,34 +148,6 @@ public class ApiConfig {
      */
     public static String getAuthorizationHeaderName() {
         return getString("api.headers.authorization", "Authorization");
-    }
-    
-    /**
-     * Get header name for accept
-     */
-    public static String getAcceptHeaderName() {
-        return getString("api.headers.accept", "Accept");
-    }
-    
-    /**
-     * Get test user count
-     */
-    public static int getTestUserCount() {
-        return getInt("api.test.users.count", 5);
-    }
-    
-    /**
-     * Get test user prefix
-     */
-    public static String getTestUserPrefix() {
-        return getString("api.test.user.prefix", "TestUser");
-    }
-    
-    /**
-     * Get test email domain
-     */
-    public static String getTestEmailDomain() {
-        return getString("api.test.email.domain", "@example.com");
     }
     
     /**
@@ -243,34 +172,6 @@ public class ApiConfig {
     }
     
     /**
-     * Check if retry is enabled
-     */
-    public static boolean isRetryEnabled() {
-        return getBoolean("api.retry.enabled", false);
-    }
-    
-    /**
-     * Get max retry attempts
-     */
-    public static int getMaxRetryAttempts() {
-        return getInt("api.retry.max.attempts", 1);
-    }
-    
-    /**
-     * Check if performance testing is enabled
-     */
-    public static boolean isPerformanceTestEnabled() {
-        return getBoolean("api.performance.test.enabled", false);
-    }
-    
-    /**
-     * Get performance test timeout
-     */
-    public static int getPerformanceTestTimeout() {
-        return getInt("api.performance.timeout", 60000);
-    }
-    
-    /**
      * Print current configuration
      */
     public static void printConfiguration() {
@@ -279,9 +180,7 @@ public class ApiConfig {
         System.out.println("   Base URL: " + getBaseUrl());
         System.out.println("   Users Endpoint: " + getUsersEndpoint());
         System.out.println("   Connection Timeout: " + getConnectionTimeout() + "ms");
-        System.out.println("   Read Timeout: " + getReadTimeout() + "ms");
         System.out.println("   Rate Limit Delay: " + getRateLimitDelay() + "ms");
-        System.out.println("   Test User Count: " + getTestUserCount());
         System.out.println("   Logging Level: " + getLoggingLevel());
         System.out.println("   Request Body Logging: " + isRequestBodyLoggingEnabled());
         System.out.println("   Response Body Logging: " + isResponseBodyLoggingEnabled());

@@ -9,9 +9,7 @@ Feature: User API CRUD Operations
     Given the API base URL is configured
     And I have a valid authentication token
     And I prepare test user data
-    When I send a POST request to create a new user with the following data:
-      | name        | email                    | gender | status |
-      | John Doe    | john.doe@example.com    | male   | active |
+    When I send a POST request to create a new user
     Then the response status code should be 201
     And the response should contain valid JSON
     And the response should contain the created user data

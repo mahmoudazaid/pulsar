@@ -89,6 +89,14 @@
             <version>2.15.2</version>
         </dependency>
 
+        <!-- Java Faker for generating realistic random test data -->
+        <dependency>
+            <groupId>net.datafaker</groupId>
+            <artifactId>datafaker</artifactId>
+            <version>2.1.0</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
