@@ -1,4 +1,4 @@
-# 🚀 BDD UI-API Testing Framework
+# 🚀 Pulsar - BDD Testing Framework
 
 A comprehensive **Behavior Driven Development (BDD)** testing framework for both **UI** and **API** testing using **Cucumber**, **Selenium WebDriver**, and **Java**.
 
@@ -14,7 +14,7 @@ This framework provides a **professional-grade testing solution** that combines:
 
 ## 🚀 **Overview**
 
-Orange BDD is a comprehensive testing framework that combines **Cucumber BDD** with **Java** and **Maven**, supporting both **UI testing** (Selenium WebDriver) and **API testing** (HTTP client). The framework provides a modern, professional testing experience with dedicated run configurations for different test types.
+**Pulsar** is a comprehensive testing framework that combines **Cucumber BDD** with **Java** and **Maven**, supporting both **UI testing** (Selenium WebDriver) and **API testing** (HTTP client). The framework provides a modern, professional testing experience with dedicated run configurations for different test types.
 
 ## ✨ **Features**
 
@@ -30,20 +30,19 @@ Orange BDD is a comprehensive testing framework that combines **Cucumber BDD** w
 ## 🏗️ **Project Structure**
 
 ```
-orange-bdd/
+pulsar-test-framework/
 ├── src/
 │   ├── main/
 │   │   └── resources/
 │   │       └── system.properties   # Centralized configuration
 │   └── test/
 │       ├── java/
-│       │   └── com/orange/
+│       │   └── com/pulsar/
 │       │       ├── cucumber/
 │       │       │   ├── hooks/
 │       │       │   │   ├── UIGlobalHooks.java        # UI browser management
 │       │       │   │   ├── UIScenarioHooks.java      # UI WebDriver operations
-│       │       │   │   ├── APIGlobalHooks.java       # API configuration
-│       │       │   │   └── APIScenarioHooks.java     # API scenario handling
+│       │       │   │   └── APIGlobalHooks.java       # API configuration
 │       │       │   ├── runner/
 │       │       │   │   ├── TestRunner.java          # Combined tests
 │       │       │   │   ├── UICucumberRunner.java    # UI tests only

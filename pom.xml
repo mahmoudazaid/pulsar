@@ -4,12 +4,12 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.orange</groupId>
-    <artifactId>bdd-ui-api</artifactId>
+    <groupId>com.pulsar</groupId>
+    <artifactId>pulsar-test-framework</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>bdd-ui-api</name>
-    <description>BDD Framework for UI and API Testing with Cucumber</description>
+    <name>Pulsar</name>
+    <description>Pulsar - A Powerful BDD Testing Framework for UI and API Testing with Cucumber</description>
     <url>http://www.example.com</url>
 
     <properties>
