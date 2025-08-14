@@ -1,4 +1,4 @@
-package com.orange.cucumber.stepDef;
+package com.orange.cucumber.stepDef.ui;
 
 import com.orange.cucumber.runner.TestState;
 import com.orange.selenium.page.CartPage;

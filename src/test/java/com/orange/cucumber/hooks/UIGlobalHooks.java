@@ -9,8 +9,8 @@ import io.cucumber.java.Before;
 
 import org.apache.log4j.Logger;
 
-public class GlobalHooks {
-    private static final Logger logger = Logger.getLogger(GlobalHooks.class.getName());
+public class UIGlobalHooks {
+    private static final Logger logger = Logger.getLogger(UIGlobalHooks.class.getName());
 
     private static boolean executed = false;
 
@@ -18,7 +18,7 @@ public class GlobalHooks {
 
     private final TestState localState;
 
-    public GlobalHooks(TestState localState) {
+    public UIGlobalHooks(TestState localState) {
         this.localState = localState;
     }
 

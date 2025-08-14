@@ -9,12 +9,12 @@ import io.cucumber.java.Scenario;
 
 import org.apache.log4j.Logger;
 
-public class ScenarioHooks {
-    private static final Logger logger = Logger.getLogger(ScenarioHooks.class.getName());
+public class UIScenarioHooks {
+    private static final Logger logger = Logger.getLogger(UIScenarioHooks.class.getName());
 
     private final TestState state;
 
-    public ScenarioHooks(TestState state) {
+    public UIScenarioHooks(TestState state) {
         this.state = state;
     }
 

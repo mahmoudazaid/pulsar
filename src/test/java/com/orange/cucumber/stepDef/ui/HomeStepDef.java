@@ -1,4 +1,4 @@
-package com.orange.cucumber.stepDef;
+package com.orange.cucumber.stepDef.ui;
 
 import com.orange.cucumber.runner.TestState;
 import com.orange.selenium.page.HomePage;
@@ -30,10 +30,6 @@ public class HomeStepDef extends AbstractStepDef {
     @Given("I am on the StackDemo Home Page")
     public void iAmOnTheStackDemoHomePage() {
         logger.info("Navigating to StackDemo Home Page");
-        String expectedUrl = SystemProperties.getApplicationUrl();
-//        getHomePage().goToHomePage(expectedUrl);
-        
-        // Wait for homepage to load and verify
         getHomePage().waitForHomePageToLoad();
     }
 } 
