@@ -1,237 +1,381 @@
-# Orange BDD Testing Framework
+# 🧪 Orange BDD Testing Framework
 
-## 🎯 Overview
+## 🚀 **Overview**
 
-This project is a comprehensive BDD (Behavior Driven Development) testing framework that supports both UI and API testing. It's built using Java, Cucumber, TestNG, and Selenium, providing a robust foundation for automated testing with organized step definitions under the cucumber package.
+Orange BDD is a comprehensive testing framework that combines **Cucumber BDD** with **Java** and **Maven**, supporting both **UI testing** (Selenium WebDriver) and **API testing** (HTTP client). The framework provides a modern, professional testing experience with dedicated run configurations for different test types.
 
-## 🏗️ Project Structure
+## ✨ **Features**
 
-The project is organized with clear separation between UI and API testing, and all step definitions are consolidated under the cucumber package:
+- **🥒 Cucumber BDD** - Behavior-driven development with Gherkin syntax
+- **🧪 UI Testing** - Selenium WebDriver integration for web application testing
+- **🔌 API Testing** - HTTP client for REST API testing without browser overhead
+- **🎯 Dedicated Run Configurations** - Separate configurations for UI, API, and combined tests
+- **📊 HTML Reporting** - Comprehensive test reports with Cucumber integration
+- **🏗️ Maven Integration** - Standard Maven build system with dependency management
+- **🎨 Modern IDE Support** - Optimized for Cursor IDE with VS Code compatibility
+- **🏷️ Tag-based Testing** - Organize and run tests by categories (@ui, @api, @smoke, etc.)
+
+## 🏗️ **Project Structure**
 
 ```
-src/test/resources/features/
-├── ui/                    # UI test features
-│   └── stackdemo_cart_basic.feature
-└── api/                   # API test features
-    └── users_crud.feature
-
-src/test/java/com/orange/cucumber/stepDef/
-├── ui/                    # UI step definitions
-│   ├── AbstractStepDef.java
-│   ├── CartStepDef.java
-│   ├── HomeStepDef.java
-│   └── LoginStepDef.java
-└── api/                   # API step definitions
-    └── ApiStepDef.java
+orange-bdd/
+├── src/
+│   ├── main/
+│   │   └── resources/
+│   │       └── system.properties   # Centralized configuration
+│   └── test/
+│       ├── java/
+│       │   └── com/orange/
+│       │       ├── cucumber/
+│       │       │   ├── hooks/
+│       │       │   │   ├── UIGlobalHooks.java        # UI browser management
+│       │       │   │   ├── UIScenarioHooks.java      # UI WebDriver operations
+│       │       │   │   ├── APIGlobalHooks.java       # API configuration
+│       │       │   │   └── APIScenarioHooks.java     # API scenario handling
+│       │       │   ├── runner/
+│       │       │   │   ├── TestRunner.java          # Combined tests
+│       │       │   │   ├── UICucumberRunner.java    # UI tests only
+│       │       │   │   └── APICucumberRunner.java   # API tests only
+│       │       │   └── stepDef/
+│       │       │       ├── ui/                       # UI step definitions
+│       │       │       │   ├── AbstractStepDef.java
+│       │       │       │   ├── CartStepDef.java
+│       │       │       │   ├── HomeStepDef.java
+│       │       │       │   └── LoginStepDef.java
+│       │       │       └── api/                      # API step definitions
+│       │       │           └── UsersCrud.java
+│       │       ├── api/
+│       │       │   ├── BaseApiTest.java             # API base class
+│       │       │   ├── config/
+│       │       │   │   └── ApiConfig.java           # API configuration
+│       │       │   ├── model/
+│       │       │   │   └── User.java                # User data model
+│       │       │   └── service/
+│       │       │       └── UserApiService.java      # API service layer
+│       │       └── selenium/
+│       │           ├── driver/
+│       │           │   ├── BrowserFactory.java
+│       │           │   └── CustomWebDriver.java
+│       │           ├── locator/
+│       │           │   ├── CartPageLocator.java
+│       │           │   ├── HomePageLocator.java
+│       │           │   └── LoginPageLocator.java
+│       │           └── page/
+│       │               ├── CartPage.java
+│       │               ├── HomePage.java
+│       │               └── LoginPage.java
+│       └── resources/
+│           ├── features/                  # Organized feature files
+│           │   ├── ui/                    # UI test features
+│           │   │   └── stackdemo_cart_basic.feature
+│           │   └── api/                   # API test features
+│           │       └── users_crud.feature
+│           └── testdata/
+│               └── users.json
+├── pom.xml                              # Maven project configuration
+├── open-reports.sh                      # Open test reports in browser
+└── README.md                            # This file
 ```
 
-## 🚀 Quick Start
+## 📋 **Prerequisites**
 
-### Prerequisites
-- Java 8 or higher
-- Maven 3.6+
-- Chrome/Firefox browser (for UI tests)
-- Internet connection (for API tests)
+- **Java 11+** - JDK 11 or higher
+- **Maven 3.6+** - Apache Maven for build management
+- **Cursor IDE** - Modern IDE with Java and Cucumber extensions
+- **Git** - Version control system
 
-### Configuration
-1. **Update API token** in `src/main/resources/system.properties`:
-   ```properties
-   api.auth.token=Bearer YOUR_ACTUAL_TOKEN_HERE
-   ```
+## 🔧 **Setup Instructions**
 
-2. **Get GoRest API token** from [https://gorest.co.in/](https://gorest.co.in/)
-
-### Running Tests
-
-#### Option 1: Main Test Runner (Recommended)
+### **1. Clone the Repository**
 ```bash
-# Make scripts executable
-chmod +x run-tests.sh run-api-tests.sh
-
-# Run all tests
-./run-tests.sh
-
-# Run specific test type
-./run-tests.sh -t ui          # UI tests only
-./run-tests.sh -t api         # API tests only
-./run-tests.sh -t combined    # Both UI and API
-
-# Run in specific environment
-./run-tests.sh -t api -e staging
-./run-tests.sh -t ui -e prod
-
-# Show project structure
-./run-tests.sh --structure
+git clone <your-repository-url>
+cd orange-bdd
 ```
 
-#### Option 2: Specialized Runners
-```bash
-# API tests only
-./run-api-tests.sh -e dev
-./run-api-tests.sh -a
+### **2. Install Required Extensions in Cursor IDE**
 
-# Direct Maven execution
-mvn test -Dtest=UITestRunner      # UI tests
-mvn test -Dtest=ApiTestRunner     # API tests
-mvn test -Dtest=TestRunner        # Combined tests
+Open Cursor IDE and install these extensions:
+
+1. **🥒 Cucumber (Gherkin)** - Official Cucumber extension
+2. **☕ Extension Pack for Java** - Java language support
+3. **📦 Maven for Java** - Maven project support
+4. **🧪 Test Runner for Java** - Test execution and debugging
+5. **🔍 Test Explorer UI** - Test discovery interface
+
+**How to install:**
+- Press `Ctrl+Shift+X` (Windows/Linux) or `Cmd+Shift+X` (macOS)
+- Search for each extension name
+- Click Install and reload Cursor IDE
+
+### **3. Verify Project Structure**
+```bash
+mvn clean compile test-compile
 ```
 
-## 📋 Features
+## 🎮 **Running Tests**
 
-### ✅ **UI Testing**
-- Selenium WebDriver integration
-- Page Object Model implementation
-- Cross-browser support
-- Screenshot capture on failure
-- Responsive design testing
+### **Method 1: Using Run and Debug Panel (Recommended)**
 
-### ✅ **API Testing**
-- HTTP client implementation (no Rest Assured)
-- CRUD operations testing
-- Response validation
-- Schema validation
-- Authentication support
+1. **Click the Run and Debug icon** in the left sidebar (▶️ icon)
+2. **Select your desired configuration** from the dropdown:
+   - 🧪 **UI Tests** - UI testing with browser
+   - 🔌 **API Tests** - API testing without browser
+   - 🚀 **All Tests** - Complete test suite
+3. **Click the green play button** ▶️ to run tests
+4. **Click the bug button** 🐛 to debug with breakpoints
 
-### ✅ **BDD Approach**
-- Cucumber feature files
-- Human-readable scenarios
-- Data-driven testing
-- Tag-based execution
-- **Organized step definitions** under cucumber package
+### **Method 2: Using Command Palette**
 
-### ✅ **Environment Management**
-- Centralized configuration
-- Environment-specific settings
-- Runtime configuration override
-- Flexible property management
+1. **Press `Ctrl+Shift+P`** (Windows/Linux) or `Cmd+Shift+P` (macOS)
+2. **Type:** `Debug: Start Debugging`
+3. **Select** your desired configuration
 
-## 🧪 Test Types
+### **Method 3: Using Keyboard Shortcut**
 
-### UI Tests (`features/ui/`)
-- **Cart functionality** - Add/remove items
-- **Navigation** - Page navigation and routing
-- **Form validation** - Input validation and submission
-- **Responsive design** - Cross-device compatibility
+1. **Press `F5`** to start debugging
+2. **Select** your desired configuration from the dropdown
 
-### API Tests (`features/api/`)
-- **User management** - CRUD operations
-- **Authentication** - Token validation
-- **Data validation** - Schema and content validation
-- **Error handling** - Negative test scenarios
+### **Method 4: Using Maven Commands**
 
-## 📊 Reporting
-
-### Separate Reports
-- **UI tests**: `target/cucumber-reports/ui-cucumber.html`
-- **API tests**: `target/cucumber-reports/api-cucumber.html`
-- **Combined tests**: `target/cucumber-reports/combined-cucumber.html`
-
-### View Reports
 ```bash
+# UI tests (with browser)
+mvn clean test -Dtest=UICucumberRunner
+
+# API tests (no browser)
+mvn clean test -Dtest=APICucumberRunner
+
+# All tests
+mvn clean test -Dtest=TestRunner
+
+# Run with specific environment
+mvn clean test -Dtest=APICucumberRunner -Denv=staging
+```
+
+### **Method 5: Using Tasks**
+
+1. **Press `Ctrl+Shift+P`** (Windows/Linux) or `Cmd+Shift+P` (macOS)
+2. **Type:** `Tasks: Run Task`
+3. **Select** your desired task:
+   - 🧪 **Run UI Tests**
+   - 🔌 **Run API Tests**
+   - 🚀 **Run All Tests**
+
+## 🎯 **Test Configurations Explained**
+
+### **🧪 UI Tests Configuration**
+- **Main Class:** `UICucumberRunner`
+- **Tags:** `@ui or @cart`
+- **Browser:** ✅ Starts browser for UI testing
+- **Use Case:** When you want to test UI functionality with Selenium
+- **Features:** Runs all tests from `features/ui/` folder
+
+### **🔌 API Tests Configuration**
+- **Main Class:** `APICucumberRunner`
+- **Tags:** `@api`
+- **Browser:** ❌ No browser (pure HTTP client testing)
+- **Use Case:** When you want to test API endpoints without browser overhead
+- **Features:** Runs all tests from `features/api/` folder
+
+### **🚀 All Tests Configuration**
+- **Main Class:** `TestRunner`
+- **Tags:** `not @ignore`
+- **Browser:** ✅ Starts browser (includes UI tests)
+- **Use Case:** When you want to run the complete test suite
+- **Features:** Runs both UI and API tests from all feature folders
+
+## 🏷️ **Tagging Strategy**
+
+### **UI Tests**
+- `@ui` - All UI-related tests
+- `@cart` - Cart functionality tests
+- `@smoke` - Smoke test scenarios
+
+### **API Tests**
+- `@api` - All API-related tests
+- `@create` - Create operations
+- `@read` - Read operations
+- `@update` - Update operations
+- `@delete` - Delete operations
+
+### **General Tags**
+- `@smoke` - Critical path tests
+- `@ignore` - Tests to skip
+
+## 📊 **Test Reports**
+
+### **HTML Reports**
+After running tests, reports are generated in:
+```
+target/cucumber-reports/
+├── ui-cucumber.html           # UI test reports
+├── api-cucumber.html          # API test reports
+└── combined-cucumber.html     # Combined test reports
+```
+
+### **Opening Reports**
+```bash
+# Open reports in browser
+./open-reports.sh
+
+# Or navigate manually to:
+# target/cucumber-reports/
+```
+
+## ⚙️ **Configuration**
+
+### **Environment Configuration**
+All configuration is centralized in `src/main/resources/system.properties`:
+
+```properties
+# API Configuration
+api.base.url=https://gorest.co.in
+api.users.endpoint=/public/v2/users
+api.auth.token=Bearer your-token-here
+
+# Test Configuration
+test.data.generation.enabled=true
+test.data.user.prefix=TestUser
+test.data.user.suffix.timestamp=true
+
+# Timeout Configuration
+api.connection.timeout=10000
+api.read.timeout=30000
+```
+
+### **Environment Variables**
+Override configuration at runtime:
+```bash
+mvn test -Dtest=APICucumberRunner -Denv=staging
+```
+
+## 🔍 **Writing Tests**
+
+### **Feature Files**
+Create `.feature` files in the appropriate folder:
+
+```gherkin
+@ui @smoke @cart
+Feature: StackDemo Cart Basic Functionality
+  As a user
+  I want to add items to my cart
+  So that I can purchase them later
+
+  Background:
+    Given I am on the StackDemo Home Page
+
+  @add_to_cart
+  Scenario: Add item to cart
+    Given I am browsing the product catalog
+    When I add a product "iPhone 12" to cart
+    Then the item should be added to my cart
+    And the cart count should show "1"
+```
+
+### **Step Definitions**
+Create step definitions in the appropriate package:
+
+```java
+package com.orange.cucumber.stepDef.ui;
+
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
+import io.cucumber.java.en.Then;
+
+public class CartStepDef extends AbstractStepDef {
+    
+    @Given("I am browsing the product catalog")
+    public void iAmBrowsingTheProductCatalog() {
+        // Implementation
+    }
+    
+    @When("I add a product {string} to cart")
+    public void iAddAProductToCart(String productName) {
+        // Implementation
+    }
+    
+    @Then("the item should be added to my cart")
+    public void theItemShouldBeAddedToMyCart() {
+        // Implementation
+    }
+}
+```
+
+## 🚨 **Troubleshooting**
+
+### **Common Issues**
+
+1. **Tests Not Running**
+   - Verify Java extension is installed and enabled
+   - Check Maven project structure
+   - Run `mvn clean compile` first
+
+2. **Feature Files Not Recognized**
+   - Install Cucumber (Gherkin) extension
+   - Check file associations
+   - Verify feature files are in correct folders
+
+3. **Browser Not Starting for UI Tests**
+   - Verify you selected "🧪 UI Tests" configuration
+   - Check Selenium dependencies
+   - Verify WebDriver configuration
+
+4. **API Tests Taking Too Long**
+   - Verify you selected "🔌 API Tests" configuration
+   - Check API endpoint accessibility
+   - Verify authentication token
+
+### **Debug Steps**
+1. **Check Output panel** for error messages
+2. **Verify Java extension** is working
+3. **Check Maven** project structure
+4. **Verify Cucumber** dependencies in pom.xml
+
+## 🎉 **Benefits**
+
+### **✅ Professional Setup**
+- **Dedicated run configurations** for different test types
+- **Clear separation** between UI and API testing
+- **Modern IDE experience** with Cursor IDE
+- **Integrated debugging** support
+
+### **✅ Scalability**
+- **Easy to add** new UI features
+- **Simple to extend** API endpoints
+- **Modular test execution**
+- **Organized step definition** structure
+
+### **✅ Team Collaboration**
+- **Clear ownership** and responsibilities
+- **Consistent configuration** across team
+- **Easy maintenance** and debugging
+- **Professional workflow**
+
+## 🚀 **Quick Start Commands**
+
+```bash
+# Setup
+git clone <repository>
+cd orange-bdd
+mvn clean compile
+
+# Run tests
+mvn clean test -Dtest=UICucumberRunner      # UI tests
+mvn clean test -Dtest=APICucumberRunner     # API tests
+mvn clean test -Dtest=TestRunner            # All tests
+
+# Open reports
 ./open-reports.sh
 ```
 
-## 🔧 Configuration
+## 📚 **Additional Resources**
 
-### Environment Support
-- **dev** - Development environment
-- **staging** - Staging environment
-- **prod** - Production environment
-
-### Configuration Files
-- **`system.properties`** - Centralized configuration
-- **Environment variables** - Runtime override
-- **System properties** - Maven execution override
-
-## 🏷️ Tagging Strategy
-
-### UI Tests
-- `@ui` - All UI-related tests
-- `@cart` - Cart functionality
-- `@smoke` - Critical path tests
-
-### API Tests
-- `@api` - All API-related tests
-- `@create`, `@read`, `@update`, `@delete` - CRUD operations
-- `@validation` - Data validation
-- `@performance` - Performance testing
-
-## 📚 Documentation
-
-- **[API Testing Guide](API_TESTING_README.md)** - Comprehensive API testing documentation
-- **[Project Structure](PROJECT_STRUCTURE_README.md)** - Detailed project organization guide
-- **[Reports Guide](REPORTS_README.md)** - HTML report generation and viewing
-
-## 🔄 CI/CD Integration
-
-### Maven Integration
-```xml
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-surefire-plugin</artifactId>
-    <configuration>
-        <includes>
-            <include>**/*Runner*.java</include>
-        </includes>
-        <systemPropertyVariables>
-            <env>${env}</env>
-        </systemPropertyVariables>
-    </configuration>
-</plugin>
-```
-
-### Pipeline Examples
-```bash
-# Development pipeline
-mvn clean test -Dtest=TestRunner -Denv=dev
-
-# Staging pipeline
-mvn clean test -Dtest=TestRunner -Denv=staging
-
-# Production pipeline
-mvn clean test -Dtest=TestRunner -Denv=prod
-```
-
-## 🐛 Troubleshooting
-
-### Common Issues
-1. **API authentication errors** - Check token in `system.properties`
-2. **Feature files not found** - Verify paths in new structure
-3. **Step definitions missing** - Check glue paths in test runners
-4. **Configuration not loading** - Verify `system.properties` location
-5. **Import errors** - Check step definition package structure
-
-### Getting Help
-```bash
-# Show help
-./run-tests.sh --help
-
-# Show project structure
-./run-tests.sh --structure
-
-# Check configuration
-cat src/main/resources/system.properties
-```
-
-## 🎉 Benefits
-
-- **✅ Organized Structure** - Clear separation of UI and API testing
-- **✅ Consolidated Step Definitions** - All under cucumber package with organized subfolders
-- **✅ Scalable Framework** - Easy to add new features and endpoints
-- **✅ Team Collaboration** - Clear ownership and responsibilities
-- **✅ CI/CD Ready** - Multiple execution options and environments
-- **✅ Comprehensive Reporting** - Separate reports for different test types
-- **✅ BDD Approach** - Human-readable test scenarios
-
-## 🆘 Support
-
-For issues or questions:
-1. Check the troubleshooting section
-2. Review project structure documentation
-3. Verify configuration files
-4. Use the help options in test runner scripts
-5. Check step definition package structure and imports
+- **Cucumber Documentation:** https://cucumber.io/docs
+- **Selenium Documentation:** https://selenium.dev/documentation/
+- **Maven Documentation:** https://maven.apache.org/guides/
+- **Cursor IDE Documentation:** https://cursor.sh/docs
 
 ---
 
-**Note**: This framework provides a solid foundation for scalable testing and can be easily extended for future needs. The consolidation of all step definitions under the cucumber package with organized subfolders makes the project more maintainable and easier to work with for different team members.
+**🎯 Pro Tip:** Use the Run and Debug panel as your primary way to execute tests. The separate configurations make it easy to switch between UI and API testing without confusion, providing a professional-grade testing experience!
+
+**Happy testing! 🚀**
