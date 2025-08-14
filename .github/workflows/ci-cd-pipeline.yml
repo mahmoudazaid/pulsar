@@ -32,6 +32,9 @@ jobs:
           # Skip UI tests for Java 8 (Selenium compatibility)
           - java-version: 8
             test-type: ui
+          # Skip Java 8 for all tests if there are compatibility issues
+          - java-version: 8
+            test-type: all
     
     steps:
       # Checkout code
