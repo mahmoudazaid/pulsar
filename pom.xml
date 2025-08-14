@@ -145,7 +145,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <projectName>Orange BDD Tests</projectName>
+                            <projectName>Pulsar BDD Tests</projectName>
                             <outputDirectory>${project.build.directory}/cucumber-reports</outputDirectory>
                             <inputDirectory>${project.build.directory}/cucumber-reports</inputDirectory>
                             <jsonFiles>
