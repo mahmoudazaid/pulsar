@@ -1,13 +1,13 @@
 name: Orange BDD Framework CI/CD Pipeline
 
-# Trigger pipeline on push to main branch and pull requests
+# Trigger pipeline on push to master branch and pull requests
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
   schedule:
-    # Run daily at 2:00 AM UTC (adjust timezone as needed)
+    # Run daily at 2:00 AM UTC
     - cron: '0 2 * * *'
   workflow_dispatch: # Allow manual trigger
 
@@ -18,34 +18,21 @@ env:
 
 # Jobs configuration
 jobs:
-  # Test Execution Job
-  test:
-    name: 🧪 Run Tests
+  # API Tests Job
+  api-tests:
+    name: 🔌 API Tests
     runs-on: ubuntu-latest
-    
-    # Matrix strategy for multiple Java versions
-    strategy:
-      matrix:
-        java-version: [8, 11, 17]
-        test-type: [ui, api, all]
-        exclude:
-          # Skip UI tests for Java 8 (Selenium compatibility)
-          - java-version: 8
-            test-type: ui
-          # Skip Java 8 for all tests if there are compatibility issues
-          - java-version: 8
-            test-type: all
     
     steps:
       # Checkout code
       - name: 📥 Checkout code
         uses: actions/checkout@v4
         
-      # Setup Java
-      - name: ☕ Setup Java ${{ matrix.java-version }}
+      # Setup Java 19
+      - name: ☕ Setup Java 19
         uses: actions/setup-java@v4
         with:
-          java-version: ${{ matrix.java-version }}
+          java-version: '19'
           distribution: 'temurin'
           cache: 'maven'
           
@@ -57,29 +44,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
           
-      # Clear Maven cache for fresh dependencies
-      - name: 🧹 Clear Maven cache
-        run: |
-          echo "🧹 Clearing Maven cache to ensure fresh dependencies..."
-          rm -rf ~/.m2/repository/net/datafaker/
-          rm -rf ~/.m2/repository/org/apache/maven/plugins/maven-compiler-plugin/
-          echo "✅ Maven cache cleared"
-          
-      # Cache test results
-      - name: 📊 Cache test results
-        uses: actions/cache@v4
-        with:
-          path: |
-            target/cucumber-reports/
-            target/surefire-reports/
-            target/test-classes/
-          key: ${{ runner.os }}-test-results-${{ matrix.java-version }}-${{ matrix.test-type }}-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-test-results-${{ matrix.java-version }}-${{ matrix.test-type }}-
-            ${{ runner.os }}-test-results-${{ matrix.java-version }}-
-            ${{ runner.os }}-test-results-
-            
-      # Print Java and Maven versions
+      # Display versions
       - name: ℹ️ Display versions
         run: |
           echo "🔍 Environment Information:"
@@ -92,95 +57,104 @@ jobs:
           echo ""
           echo "Current directory:"
           pwd
-          echo ""
-          echo "Directory contents:"
-          ls -la
-          echo ""
-          echo "Maven compiler configuration:"
-          mvn help:evaluate -Dexpression=project.build.sourceEncoding -q -DforceStdout || echo "Could not read Maven config"
-          echo "Java source version: $(mvn help:evaluate -Dexpression=maven.compiler.source -q -DforceStdout || echo 'Unknown')"
-          echo "Java target version: $(mvn help:evaluate -Dexpression=maven.compiler.target -q -DforceStdout || echo 'Unknown')"
-          echo ""
-          echo "🔍 Maven Plugin Versions:"
-          echo "=========================="
-          mvn help:describe -Dplugin=org.apache.maven.plugins:maven-compiler-plugin -Ddetail=true -q || echo "Could not describe compiler plugin"
-          echo ""
-          echo "🔍 Dependencies:"
-          echo "==============="
-          mvn dependency:tree -Dscope=test | grep -E "(datafaker|maven-compiler-plugin)" || echo "No relevant dependencies found"
           
       # Compile project
       - name: 🔨 Compile project
         run: mvn clean compile test-compile -q
         
-      # Run tests based on matrix strategy
-      - name: 🧪 Run ${{ matrix.test-type }} tests with Java ${{ matrix.java-version }}
-        run: |
-          case "${{ matrix.test-type }}" in
-            "ui")
-              echo "Running UI tests..."
-              mvn clean test -Dtest=UICucumberRunner -q
-              ;;
-            "api")
-              echo "Running API tests..."
-              mvn clean test -Dtest=APICucumberRunner -q
-              ;;
-            "all")
-              echo "Running all tests..."
-              mvn clean test -Dtest=TestRunner -q
-              ;;
-          esac
-        continue-on-error: false
+      # Run API tests
+      - name: 🧪 Run API tests
+        run: mvn clean test -Dtest=APICucumberRunner -q
         
-      # Collect test results
-      - name: 📊 Collect test results
-        if: always()
-        run: |
-          echo "📁 Test results directory structure:"
-          find target -name "*.html" -o -name "*.xml" -o -name "*.json" | head -20
-          
-          echo "📊 Test summary:"
-          if [ -f "target/surefire-reports/TEST-*.xml" ]; then
-            echo "✅ Surefire reports found"
-          else
-            echo "❌ No Surefire reports found"
-          fi
-          
-          if [ -f "target/cucumber-reports/*.html" ]; then
-            echo "✅ Cucumber reports found"
-          else
-            echo "❌ No Cucumber reports found"
-          fi
-          
-      # Upload test results as artifacts
-      - name: 📤 Upload test results
-        if: always()
+      # Upload API test results
+      - name: 📤 Upload API test results
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-java${{ matrix.java-version }}-${{ matrix.test-type }}
+          name: api-test-results
           path: |
             target/cucumber-reports/
             target/surefire-reports/
-            target/test-classes/
-            target/site/
           retention-days: 30
           
-      # Upload Maven logs
-      - name: 📤 Upload Maven logs
-        if: always()
+      # Upload API HTML report
+      - name: 📊 Upload API HTML report
         uses: actions/upload-artifact@v4
         with:
-          name: maven-logs-java${{ matrix.java-version }}-${{ matrix.test-type }}
-          path: |
-            target/maven.log
-            target/surefire-reports/*.txt
+          name: api-html-report
+          path: target/cucumber-reports/api-cucumber.html
           retention-days: 30
 
-  # Test Results Analysis Job
-  test-results:
-    name: 📊 Analyze Test Results
+  # UI Tests Job
+  ui-tests:
+    name: 🖥️ UI Tests
     runs-on: ubuntu-latest
-    needs: test
+    
+    steps:
+      # Checkout code
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        
+      # Setup Java 19
+      - name: ☕ Setup Java 19
+        uses: actions/setup-java@v4
+        with:
+          java-version: '19'
+          distribution: 'temurin'
+          cache: 'maven'
+          
+      # Cache Maven dependencies
+      - name: 📦 Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+          
+      # Display versions
+      - name: ℹ️ Display versions
+        run: |
+          echo "🔍 Environment Information:"
+          echo "=========================="
+          echo "Java version:"
+          java -version
+          echo ""
+          echo "Maven version:"
+          mvn -version
+          echo ""
+          echo "Current directory:"
+          pwd
+          
+      # Compile project
+      - name: 🔨 Compile project
+        run: mvn clean compile test-compile -q
+        
+      # Run UI tests
+      - name: 🧪 Run UI tests
+        run: mvn clean test -Dtest=UICucumberRunner -q
+        
+      # Upload UI test results
+      - name: 📤 Upload UI test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-test-results
+          path: |
+            target/cucumber-reports/
+            target/surefire-reports/
+          retention-days: 30
+          
+      # Upload UI HTML report
+      - name: 📊 Upload UI HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-html-report
+          path: target/cucumber-reports/ui-cucumber.html
+          retention-days: 30
+
+  # Summary Job
+  summary:
+    name: 📋 Test Summary
+    runs-on: ubuntu-latest
+    needs: [api-tests, ui-tests]
     if: always()
     
     steps:
@@ -194,184 +168,38 @@ jobs:
         with:
           path: test-artifacts
           
-      # Analyze test results
-      - name: 🔍 Analyze test results
-        run: |
-          echo "📊 Test Results Analysis"
-          echo "========================"
-          
-          # Count test artifacts
-          echo "📦 Total artifacts downloaded:"
-          ls -la test-artifacts/
-          
-          # Check for test failures
-          echo "🔍 Checking for test failures..."
-          if find test-artifacts -name "*.xml" -exec grep -l "failures" {} \; | grep -q .; then
-            echo "❌ Test failures detected!"
-            find test-artifacts -name "*.xml" -exec grep -l "failures" {} \;
-          else
-            echo "✅ No test failures detected"
-          fi
-          
-          # Generate summary report
-          echo "📋 Test Summary Report"
-          echo "======================"
-          echo "Java Versions Tested: 8, 11, 17"
-          echo "Test Types: UI, API, All"
-          echo "Status: ${{ needs.test.result }}"
-          
-      # Create test summary
-      - name: 📋 Create test summary
+      # Create summary report
+      - name: 📋 Create summary report
         run: |
           cat << EOF > test-summary.md
-          # Test Execution Summary
+          # 🚀 Orange BDD Framework Test Summary
           
-          ## Overview
-          - **Framework**: Orange BDD Framework
-          - **Execution Time**: $(date)
-          - **Overall Status**: ${{ needs.test.result }}
+          ## 🎯 Pipeline Status
+          - **API Tests**: ${{ needs.api-tests.result }}
+          - **UI Tests**: ${{ needs.ui-tests.result }}
+          - **Overall**: ${{ (needs.api-tests.result == 'success' && needs.ui-tests.result == 'success') && '✅ PASSED' || '❌ FAILED' }}
           
-          ## Test Matrix Results
-          | Java Version | UI Tests | API Tests | All Tests |
-          |--------------|----------|-----------|-----------|
-          | 8            | ⏭️ Skipped | ✅ Passed | ✅ Passed |
-          | 11           | ✅ Passed | ✅ Passed | ✅ Passed |
-          | 17           | ✅ Passed | ✅ Passed | ✅ Passed |
+          ## 📊 Test Results
+          - **API Tests**: Available in \`api-test-results\` artifact
+          - **UI Tests**: Available in \`ui-test-results\` artifact
           
-          ## Artifacts Generated
-          - Cucumber HTML Reports
-          - Surefire Test Reports
-          - Maven Build Logs
-          - Test Class Files
+          ## 📄 HTML Reports
+          - **API Report**: \`api-html-report\` artifact
+          - **UI Report**: \`ui-html-report\` artifact
           
-          ## Next Steps
-          - Review test results in artifacts
-          - Check Cucumber reports for BDD scenarios
-          - Analyze any test failures
-          EOF
-          
-      # Upload test summary
-      - name: 📤 Upload test summary
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-summary
-          path: test-summary.md
-          retention-days: 90
-
-  # Build and Package Job
-  build:
-    name: 🏗️ Build and Package
-    runs-on: ubuntu-latest
-    needs: test
-    if: success() # Only run if tests pass
-    
-    steps:
-      # Checkout code
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
-        
-      # Setup Java 17 (latest LTS)
-      - name: ☕ Setup Java 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: 'maven'
-          
-      # Build project
-      - name: 🔨 Build project
-        run: mvn clean package -DskipTests -q
-        
-      # Upload build artifacts
-      - name: 📤 Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts
-          path: |
-            target/*.jar
-            target/classes/
-            target/generated-sources/
-          retention-days: 90
-
-  # Security Scan Job
-  security-scan:
-    name: 🔒 Security Scan
-    runs-on: ubuntu-latest
-    needs: test
-    if: success()
-    
-    steps:
-      # Checkout code
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
-        
-      # Setup Java
-      - name: ☕ Setup Java 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: 'maven'
-          
-      # Run OWASP dependency check
-      - name: 🔍 Run OWASP dependency check
-        run: |
-          echo "🔒 Running security scan..."
-          mvn org.owasp:dependency-check-maven:check -DskipTests -q || echo "⚠️ Security scan completed with warnings"
-          
-      # Upload security report
-      - name: 📤 Upload security report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: security-report
-          path: target/dependency-check-report.html
-          retention-days: 90
-
-  # Notify Results Job
-  notify:
-    name: 📢 Notify Results
-    runs-on: ubuntu-latest
-    needs: [test, test-results, build, security-scan]
-    if: always()
-    
-    steps:
-      # Checkout code
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
-        
-      # Create notification message
-      - name: 📝 Create notification
-        run: |
-          cat << EOF > notification.md
-          # 🚀 Orange BDD Framework CI/CD Results
-          
-          ## 🎯 Pipeline Status: ${{ needs.test.result }}
-          
-          ### 📊 Test Results
-          - **Test Job**: ${{ needs.test.result }}
-          - **Results Analysis**: ${{ needs.test-results.result }}
-          - **Build**: ${{ needs.build.result }}
-          - **Security Scan**: ${{ needs.security-scan.result }}
-          
-          ### 🔗 Artifacts
-          - **Test Results**: Available in workflow artifacts
-          - **Build Artifacts**: Available in workflow artifacts
-          - **Security Report**: Available in workflow artifacts
-          
-          ### 📋 Summary
-          The Orange BDD Framework CI/CD pipeline has completed execution.
-          All artifacts are available for download and review.
+          ## 🔗 Artifacts
+          All test results and reports are available for download in the workflow artifacts.
           
           **Commit**: ${{ github.sha }}
           **Branch**: ${{ github.ref_name }}
           **Triggered by**: ${{ github.actor }}
+          **Execution Time**: $(date)
           EOF
           
-      # Upload notification
-      - name: 📤 Upload notification
+      # Upload summary
+      - name: 📤 Upload summary
         uses: actions/upload-artifact@v4
         with:
-          name: pipeline-notification
-          path: notification.md
-          retention-days: 30 
+          name: test-summary
+          path: test-summary.md
+          retention-days: 90 

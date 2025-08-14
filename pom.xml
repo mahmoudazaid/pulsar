@@ -12,9 +12,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- Java 8 to match project -->
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- Java 19 for modern development -->
+        <maven.compiler.source>19</maven.compiler.source>
+        <maven.compiler.target>19</maven.compiler.target>
 
         <!-- Modern Cucumber + TestNG -->
         <cucumber.version>7.27.0</cucumber.version>
@@ -93,7 +93,7 @@
         <dependency>
             <groupId>net.datafaker</groupId>
             <artifactId>datafaker</artifactId>
-            <version>1.8.0</version>
+            <version>2.1.0</version>
             <scope>test</scope>
         </dependency>
 
