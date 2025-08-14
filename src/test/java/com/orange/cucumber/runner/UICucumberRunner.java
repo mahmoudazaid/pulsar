@@ -6,7 +6,7 @@ import org.testng.annotations.DataProvider;
 
 @CucumberOptions(
     features = "src/test/resources/features/ui",
-    glue = {"com.orange.cucumber.stepDef.ui", "com.orange.cucumber.hooks.UIGlobalHooks", "com.orange.cucumber.hooks.UIScenarioHooks"},
+    glue = {"com.orange.cucumber.stepDef.ui", "com.orange.cucumber.hooks"},
     plugin = {
         "pretty",
         "html:target/cucumber-reports/ui-cucumber.html",
@@ -14,7 +14,8 @@ import org.testng.annotations.DataProvider;
         "junit:target/cucumber-reports/ui-cucumber.xml"
     },
     monochrome = true,
-    tags = "@ui or @cart"
+    tags = "@ui or @cart",
+    dryRun = false
 )
 public class UICucumberRunner extends AbstractTestNGCucumberTests {
 
