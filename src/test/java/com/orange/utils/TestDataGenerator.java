@@ -24,40 +24,4 @@ public class TestDataGenerator {
             faker.options().option("active", "inactive")
         );
     }
-    
-    /**
-     * Generate a random user with specific gender
-     */
-    public static User generateRandomUser(String gender) {
-        return new User(
-            faker.name().fullName(),
-            faker.internet().emailAddress(),
-            gender,
-            faker.options().option("active", "inactive")
-        );
-    }
-    
-    /**
-     * Generate a random user with specific status
-     */
-    public static User generateRandomUserWithStatus(String status) {
-        return new User(
-            faker.name().fullName(),
-            faker.internet().emailAddress(),
-            faker.options().option("male", "female"),
-            status
-        );
-    }
-    
-    /**
-     * Generate a random user with custom parameters
-     */
-    public static User generateRandomUser(String gender, String status) {
-        return new User(
-            faker.name().fullName(),
-            faker.internet().emailAddress(),
-            gender,
-            status
-        );
-    }
 } 

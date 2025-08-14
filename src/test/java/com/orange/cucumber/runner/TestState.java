@@ -9,7 +9,6 @@ public class TestState {
         return driver;
     }
 
-
     public void setDriver(CustomWebDriver driver) {
         this.driver = driver;
     }

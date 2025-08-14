@@ -27,16 +27,6 @@ public class APIScenarioHooks {
         }
     }
 
-    @Before(order = 2)
-    public void setupAPIScenario() {
-        logger.info("Setting up API scenario environment");
-        
-        // Add any API-specific scenario setup here
-        // For example: reset test data, set up authentication, etc.
-        
-        logger.info("API scenario setup completed");
-    }
-
     @After(order = 1)
     public void logAfterScenario(Scenario scenario) {
         String status = scenario.getStatus().toString();
@@ -54,19 +44,8 @@ public class APIScenarioHooks {
         }
     }
 
-    @After(order = 2)
-    public void cleanupAPIScenario() {
-        logger.info("Cleaning up API scenario environment");
-        
-        // Add any API-specific scenario cleanup here
-        // For example: cleanup test data, close connections, etc.
-        
-        logger.info("API scenario cleanup completed");
-    }
-
     @After(order = 3)
     public void logScenarioSummary(Scenario scenario) {
-        String duration = scenario.getStatus().toString();
         logger.info("API Scenario Summary:");
         logger.info("  Name: " + scenario.getName());
         logger.info("  Status: " + scenario.getStatus());
