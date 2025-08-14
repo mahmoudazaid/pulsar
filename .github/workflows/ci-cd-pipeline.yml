@@ -57,6 +57,14 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
           
+      # Clear Maven cache for fresh dependencies
+      - name: 🧹 Clear Maven cache
+        run: |
+          echo "🧹 Clearing Maven cache to ensure fresh dependencies..."
+          rm -rf ~/.m2/repository/net/datafaker/
+          rm -rf ~/.m2/repository/org/apache/maven/plugins/maven-compiler-plugin/
+          echo "✅ Maven cache cleared"
+          
       # Cache test results
       - name: 📊 Cache test results
         uses: actions/cache@v4
@@ -92,6 +100,14 @@ jobs:
           mvn help:evaluate -Dexpression=project.build.sourceEncoding -q -DforceStdout || echo "Could not read Maven config"
           echo "Java source version: $(mvn help:evaluate -Dexpression=maven.compiler.source -q -DforceStdout || echo 'Unknown')"
           echo "Java target version: $(mvn help:evaluate -Dexpression=maven.compiler.target -q -DforceStdout || echo 'Unknown')"
+          echo ""
+          echo "🔍 Maven Plugin Versions:"
+          echo "=========================="
+          mvn help:describe -Dplugin=org.apache.maven.plugins:maven-compiler-plugin -Ddetail=true -q || echo "Could not describe compiler plugin"
+          echo ""
+          echo "🔍 Dependencies:"
+          echo "==============="
+          mvn dependency:tree -Dscope=test | grep -E "(datafaker|maven-compiler-plugin)" || echo "No relevant dependencies found"
           
       # Compile project
       - name: 🔨 Compile project
