@@ -1,4 +1,4 @@
-name: Orange BDD Framework CI/CD Pipeline
+name: BDD UI-API Framework CI/CD Pipeline
 
 # Trigger pipeline on push to master branch and pull requests
 on:
@@ -172,7 +172,7 @@ jobs:
       - name: 📋 Create summary report
         run: |
           cat << EOF > test-summary.md
-          # 🚀 Orange BDD Framework Test Summary
+          # 🚀 BDD UI-API Framework Test Summary
           
           ## 🎯 Pipeline Status
           - **API Tests**: ${{ needs.api-tests.result }}

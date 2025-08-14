@@ -5,9 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.orange</groupId>
-    <artifactId>orange-bdd</artifactId>
+    <artifactId>bdd-ui-api</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>orange-bdd</name>
+    <packaging>jar</packaging>
+    <name>bdd-ui-api</name>
+    <description>BDD Framework for UI and API Testing with Cucumber</description>
     <url>http://www.example.com</url>
 
     <properties>

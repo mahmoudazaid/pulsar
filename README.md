@@ -1,8 +1,16 @@
-# 🧪 Orange BDD Framework
+# 🚀 BDD UI-API Testing Framework
 
-> **Latest Update**: Enhanced CI/CD pipeline with daily automation and Java 8 compatibility fixes
+A comprehensive **Behavior Driven Development (BDD)** testing framework for both **UI** and **API** testing using **Cucumber**, **Selenium WebDriver**, and **Java**.
 
-A comprehensive BDD (Behavior Driven Development) test automation framework built with Java, Cucumber, TestNG, and Selenium. This framework supports both UI and API testing with a clean, maintainable architecture.
+## 🎯 **Framework Overview**
+
+This framework provides a **professional-grade testing solution** that combines:
+- **🧪 UI Testing** - Selenium WebDriver with Page Object Model
+- **🔌 API Testing** - HTTP client with JSON validation
+- **🥒 BDD Approach** - Cucumber feature files and step definitions
+- **📊 Comprehensive Reporting** - HTML reports and test results
+- **⚙️ CI/CD Ready** - GitHub Actions integration
+- **🎨 Modern Architecture** - Clean separation of concerns
 
 ## 🚀 **Overview**
 
@@ -93,7 +101,7 @@ orange-bdd/
 ### **1. Clone the Repository**
 ```bash
 git clone <your-repository-url>
-cd orange-bdd
+cd bdd-ui-api
 ```
 
 ### **2. Verify Project Structure**
@@ -332,7 +340,7 @@ public class CartStepDef extends AbstractStepDef {
 ```bash
 # Setup
 git clone <repository>
-cd orange-bdd
+cd bdd-ui-api
 mvn clean compile
 
 # Run tests
