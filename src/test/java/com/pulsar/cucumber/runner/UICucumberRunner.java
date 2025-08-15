@@ -9,9 +9,7 @@ import org.testng.annotations.DataProvider;
     glue = {"com.pulsar.cucumber.stepDef.ui", "com.pulsar.cucumber.hooks.ui"},
     plugin = {
         "pretty",
-        "html:target/cucumber-reports/ui-cucumber.html",
-        "json:target/cucumber-reports/ui-cucumber.json",
-        "junit:target/cucumber-reports/ui-cucumber.xml"
+        "json:target/cucumber-reports/ui-cucumber.json"
     },
     monochrome = true,
     tags = "@ui or @cart",

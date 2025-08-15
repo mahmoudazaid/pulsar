@@ -167,59 +167,7 @@ jobs:
           path: target/cucumber-reports/ui-cucumber.html
           retention-days: 30
 
-  # Summary Job
-  summary:
-    name: 📋 Test Summary
-    runs-on: ubuntu-latest
-    needs: [api-tests, ui-tests]
-    if: always()
-    
-    steps:
-      # Checkout code
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
-        
-      # Download all test artifacts
-      - name: 📥 Download test artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: test-artifacts
-          
-      # Create summary report
-      - name: 📋 Create summary report
-        run: |
-          cat << EOF > test-summary.md
-          # 🚀 BDD UI-API Framework Test Summary
-          
-          ## 🎯 Pipeline Status
-          - **API Tests**: ${{ needs.api-tests.result }}
-          - **UI Tests**: ${{ needs.ui-tests.result }}
-          - **Overall**: ${{ (needs.api-tests.result == 'success' && needs.ui-tests.result == 'success') && '✅ PASSED' || '❌ FAILED' }}
-          
-          ## 📊 Test Results
-          - **API Tests**: Available in \`api-test-results\` artifact
-          - **UI Tests**: Available in \`ui-test-results\` artifact
-          
-          ## 📄 HTML Reports
-          - **API Report**: \`api-html-report\` artifact
-          - **UI Report**: \`ui-html-report\` artifact
-          
-          ## 🔗 Artifacts
-          All test results and reports are available for download in the workflow artifacts.
-          
-          **Commit**: ${{ github.sha }}
-          **Branch**: ${{ github.ref_name }}
-          **Triggered by**: ${{ github.actor }}
-          **Execution Time**: $(date)
-          EOF
-          
-      # Upload summary
-      - name: 📤 Upload summary
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-summary
-          path: test-summary.md
-          retention-days: 90 
+  
 
   # Deploy combined Masterthought report to GitHub Pages
   deploy-pages:
@@ -244,13 +192,23 @@ jobs:
       - name: 🔨 Build and generate combined report (UI + API)
         run: mvn -P dev -Dmaven.test.failure.ignore=true -q clean test verify
 
+      - name: 🪄 Ensure index.html exists for GitHub Pages
+        run: |
+          REPORT_DIR=target/reports/cucumber-html-reports
+          if [ -d "$REPORT_DIR" ]; then
+            ls -la "$REPORT_DIR"
+            if [ -f "$REPORT_DIR/overview-features.html" ]; then
+              cp "$REPORT_DIR/overview-features.html" "$REPORT_DIR/index.html"
+            fi
+          fi
+
       - name: ⚙️ Configure GitHub Pages
         uses: actions/configure-pages@v5
 
       - name: 📦 Upload Pages artifact (Masterthought report)
         uses: actions/upload-pages-artifact@v3
         with:
-          path: target/reports/ui/cucumber-html-reports
+          path: target/reports/cucumber-html-reports
 
       - name: 🚀 Deploy to GitHub Pages
         id: deployment

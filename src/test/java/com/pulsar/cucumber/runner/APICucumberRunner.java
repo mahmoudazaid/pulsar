@@ -9,8 +9,7 @@ import org.testng.annotations.DataProvider;
     glue = {"com.pulsar.cucumber.stepDef.api", "com.pulsar.cucumber.hooks.api"},
     plugin = {
         "pretty",
-        "json:target/cucumber-reports/api-cucumber.json",
-        "junit:target/cucumber-reports/api-cucumber.xml"
+        "json:target/cucumber-reports/api-cucumber.json"
     },
     monochrome = true,
     tags = "@api"
