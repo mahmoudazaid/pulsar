@@ -114,6 +114,64 @@
                 </configuration>
             </plugin>
 
+            <!-- Sanitize Cucumber JSON to remove hooks before generating HTML reports -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.4.1</version>
+                <executions>
+                    <execution>
+                        <id>sanitize-cucumber-json</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.pulsar.utils.CucumberReporter</mainClass>
+                            <arguments>
+                                <argument>${project.build.directory}/cucumber-reports/ui-cucumber.json</argument>
+                                <argument>${project.build.directory}/cucumber-reports/ui-cucumber.nohooks.json</argument>
+                                <argument>${project.build.directory}/cucumber-reports/api-cucumber.json</argument>
+                                <argument>${project.build.directory}/cucumber-reports/api-cucumber.nohooks.json</argument>
+                            </arguments>
+                            <classpathScope>test</classpathScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Cucumber HTML Report Plugin (nice UI) -->
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>5.7.8</version>
+                <executions>
+                    <!-- Combined UI + API report -->
+                    <execution>
+                        <id>cucumber-report-combined</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <projectName>Pulsar Tests</projectName>
+                            <outputDirectory>${project.build.directory}/reports/ui</outputDirectory>
+                            <inputDirectory>${project.build.directory}/cucumber-reports</inputDirectory>
+                            <jsonFiles>
+                                <param>ui-cucumber.nohooks.json</param>
+                                <param>api-cucumber.nohooks.json</param>
+                            </jsonFiles>
+                            <buildNumber>${project.version}</buildNumber>
+                            <checkBuildResult>false</checkBuildResult>
+                            <skippedFails>false</skippedFails>
+                            <pendingFails>false</pendingFails>
+                            <undefinedFails>false</undefinedFails>
+                            <missingFails>false</missingFails>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Surefire: actually active (not only in pluginManagement) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

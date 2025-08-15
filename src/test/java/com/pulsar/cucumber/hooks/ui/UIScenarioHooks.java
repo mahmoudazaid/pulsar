@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
+
 public class UIScenarioHooks {
     private static final Logger logger = Logger.getLogger(UIScenarioHooks.class.getName());
 
@@ -53,31 +54,27 @@ public class UIScenarioHooks {
 
     @After(order = 1)
     public void restartBrowserOnFailure(Scenario scenario) {
-        logger.info("screenshot");
-        if (scenario.isFailed()) {
-            try {
-                if (state.getDriver() != null && state.getDriver().getSeleniumWebDriver() instanceof TakesScreenshot) {
-                    byte[] screenshot = ((TakesScreenshot) state.getDriver().getSeleniumWebDriver()).getScreenshotAs(OutputType.BYTES);
-                    scenario.attach(screenshot, "image/png", "Failure Screenshot");
-                }
-                // GIF capture removed
-                // Attach a small HTML snippet for context
-                try {
-                    String html = "<html><body><h3>Failure Context</h3><p>See screenshot and GIF attachments above.</p></body></html>";
-                    scenario.attach(html.getBytes(java.nio.charset.StandardCharsets.UTF_8), "text/html", "context.html");
-                } catch (Exception ig) {
-                    logger.warn("Could not attach HTML: " + ig.getMessage());
-                }
-                logger.info("Test failed; artifacts attached to report");
-            } catch (Exception ex) {
-                logger.error(String.format("Error handling test failure: %s", ex.getMessage()));
-            }
+        // Do not attach artifacts here; handled in @AfterStep to embed under the step itself
+    }
+
+    @io.cucumber.java.AfterStep
+    public void attachFailureScreenshotInHook(io.cucumber.java.Scenario scenario) {
+        if (!scenario.isFailed()) {
+            return;
         }
-        // Always add a tiny debug attachment to verify adapter wiring
         try {
-            byte[] hello = "debug: after hook executed".getBytes(java.nio.charset.StandardCharsets.UTF_8);
-            scenario.attach(hello, "text/plain", "debug.txt");
-        } catch (Exception ignored) {}
+            if (state.getDriver() != null && state.getDriver().getSeleniumWebDriver() instanceof TakesScreenshot) {
+                byte[] screenshot = ((TakesScreenshot) state.getDriver().getSeleniumWebDriver()).getScreenshotAs(OutputType.BYTES);
+                String b64 = java.util.Base64.getEncoder().encodeToString(screenshot);
+                String descriptiveName = "Screenshot - " + scenario.getName();
+                String htmlInline = "<html><head><style>body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:8px} .shot{max-width:100%;height:auto;border:2px solid #e74c3c;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.1)}</style></head><body>"
+                        + "<div><strong>" + descriptiveName + "</strong></div>"
+                        + "<img class='shot' alt='failure screenshot' src='data:image/png;base64," + b64 + "'/></body></html>";
+                scenario.attach(htmlInline.getBytes(java.nio.charset.StandardCharsets.UTF_8), "text/html", descriptiveName);
+            }
+        } catch (Exception ex) {
+            logger.warn("Could not attach step-level inline screenshot from hook: " + ex.getMessage());
+        }
     }
 
     @After(order = 2)
