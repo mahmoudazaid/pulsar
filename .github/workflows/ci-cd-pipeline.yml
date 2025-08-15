@@ -78,24 +78,6 @@ jobs:
       # Run API tests
       - name: 🧪 Run API tests
         run: mvn clean test -Dtest=APICucumberRunner -Dapi.auth.token=${API_AUTH_TOKEN} -q
-        
-      # Upload API test results
-      - name: 📤 Upload API test results
-        uses: actions/upload-artifact@v4
-        with:
-          name: api-test-results
-          path: |
-            target/cucumber-reports/
-            target/surefire-reports/
-          retention-days: 30
-          
-      # Upload API HTML report
-      - name: 📊 Upload API HTML report
-        uses: actions/upload-artifact@v4
-        with:
-          name: api-html-report
-          path: target/cucumber-reports/api-cucumber.html
-          retention-days: 30
 
   # UI Tests Job
   ui-tests:
@@ -192,23 +174,38 @@ jobs:
       - name: 🔨 Build and generate combined report (UI + API)
         run: mvn -P dev -Dmaven.test.failure.ignore=true -q clean test verify
 
-      - name: 🪄 Ensure index.html exists for GitHub Pages
+      - name: 🪄 Prepare Pages structure (root index + per-report index)
         run: |
-          REPORT_DIR=target/reports/cucumber-html-reports
-          if [ -d "$REPORT_DIR" ]; then
-            ls -la "$REPORT_DIR"
-            if [ -f "$REPORT_DIR/overview-features.html" ]; then
-              cp "$REPORT_DIR/overview-features.html" "$REPORT_DIR/index.html"
-            fi
+          ROOT_DIR=target/reports
+          UI_DIR=$ROOT_DIR/ui/cucumber-html-reports
+          API_DIR=$ROOT_DIR/api/cucumber-html-reports
+          mkdir -p "$ROOT_DIR"
+          # Per-report index pages
+          if [ -f "$UI_DIR/overview-features.html" ]; then
+            cp "$UI_DIR/overview-features.html" "$UI_DIR/index.html"
           fi
+          if [ -f "$API_DIR/overview-features.html" ]; then
+            cp "$API_DIR/overview-features.html" "$API_DIR/index.html"
+          fi
+          # Root index with links to both reports
+          cat > "$ROOT_DIR/index.html" << 'EOF'
+          <!doctype html>
+          <html><head><meta charset="utf-8"><title>Pulsar Reports</title>
+          <style>body{font-family:Arial,Helvetica,sans-serif;margin:24px} a{display:block;margin:8px 0;font-size:18px}</style>
+          </head><body>
+            <h1>Pulsar Test Reports</h1>
+            <a href="ui/cucumber-html-reports/index.html">UI Report</a>
+            <a href="api/cucumber-html-reports/index.html">API Report</a>
+          </body></html>
+          EOF
 
       - name: ⚙️ Configure GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: 📦 Upload Pages artifact (Masterthought report)
+      - name: 📦 Upload Pages artifact (Masterthought reports)
         uses: actions/upload-pages-artifact@v3
         with:
-          path: target/reports/cucumber-html-reports
+          path: target/reports
 
       - name: 🚀 Deploy to GitHub Pages
         id: deployment

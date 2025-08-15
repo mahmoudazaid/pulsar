@@ -138,19 +138,40 @@
                 <artifactId>maven-cucumber-reporting</artifactId>
                 <version>5.7.8</version>
                 <executions>
-                    <!-- Combined UI + API report -->
+                    <!-- UI report -->
                     <execution>
-                        <id>cucumber-report-combined</id>
+                        <id>cucumber-report-ui</id>
                         <phase>verify</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <projectName>Pulsar Tests</projectName>
-                            <outputDirectory>${project.build.directory}/reports</outputDirectory>
+                            <projectName>Pulsar UI Tests</projectName>
+                            <outputDirectory>${project.build.directory}/reports/ui</outputDirectory>
                             <inputDirectory>${project.build.directory}/cucumber-reports</inputDirectory>
                             <jsonFiles>
                                 <param>ui-cucumber.nohooks.json</param>
+                            </jsonFiles>
+                            <buildNumber>${project.version}</buildNumber>
+                            <checkBuildResult>false</checkBuildResult>
+                            <skippedFails>false</skippedFails>
+                            <pendingFails>false</pendingFails>
+                            <undefinedFails>false</undefinedFails>
+                            <missingFails>false</missingFails>
+                        </configuration>
+                    </execution>
+                    <!-- API report -->
+                    <execution>
+                        <id>cucumber-report-api</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <projectName>Pulsar API Tests</projectName>
+                            <outputDirectory>${project.build.directory}/reports/api</outputDirectory>
+                            <inputDirectory>${project.build.directory}/cucumber-reports</inputDirectory>
+                            <jsonFiles>
                                 <param>api-cucumber.nohooks.json</param>
                             </jsonFiles>
                             <buildNumber>${project.version}</buildNumber>
