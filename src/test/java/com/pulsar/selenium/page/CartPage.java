@@ -6,6 +6,8 @@ import static com.pulsar.selenium.locator.CartPageLocator.*;
 import org.apache.log4j.Logger;
 
 public class CartPage extends PageObject {
+
+    private static final Logger logger = Logger.getLogger(CartPage.class.getName());
     
     public CartPage(CustomWebDriver driver) {
         super(driver, CartPage.class.getName());
