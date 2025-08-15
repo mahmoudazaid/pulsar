@@ -22,6 +22,8 @@ jobs:
   api-tests:
     name: 🔌 API Tests
     runs-on: ubuntu-latest
+    env:
+      API_AUTH_TOKEN: ${{ secrets.API_AUTH_TOKEN }}
     
     steps:
       # Checkout code
@@ -64,7 +66,7 @@ jobs:
         
       # Run API tests
       - name: 🧪 Run API tests
-        run: mvn clean test -Dtest=APICucumberRunner -q
+        run: mvn clean test -Dtest=APICucumberRunner -Dapi.auth.token=${API_AUTH_TOKEN} -q
         
       # Upload API test results
       - name: 📤 Upload API test results
@@ -88,6 +90,8 @@ jobs:
   ui-tests:
     name: 🖥️ UI Tests
     runs-on: ubuntu-latest
+    env:
+      API_AUTH_TOKEN: ${{ secrets.API_AUTH_TOKEN }}
     
     steps:
       # Checkout code

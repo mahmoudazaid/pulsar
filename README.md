@@ -304,23 +304,27 @@ All configuration is centralized in `src/main/resources/system.properties`:
 # API Configuration
 api.base.url=https://gorest.co.in
 api.users.endpoint=/public/v2/users
+# Tip: Leave token empty in repo and inject via env/CI
 api.auth.token=Bearer your-token-here
 
-# Test Configuration
-test.data.generation.enabled=true
-test.data.user.prefix=TestUser
-test.data.user.suffix.timestamp=true
-
 # Timeout Configuration
-api.connection.timeout=10000
-api.read.timeout=30000
+api.timeout.connection=30000
+api.rate.limit.delay=0
 ```
 
 ### **Environment Variables**
-Override configuration at runtime:
+You can override configuration at runtime. For the API token, use either:
+
 ```bash
-mvn test -Dtest=APICucumberRunner -Denv=staging
+# Option A: Maven system property
+mvn test -Dtest=APICucumberRunner -Dapi.auth.token=$API_AUTH_TOKEN
+
+# Option B: Environment variable (auto-detected)
+export API_AUTH_TOKEN="<your-token>"
+mvn test -Dtest=APICucumberRunner
 ```
+
+In CI (GitHub Actions), define a repository secret named `API_AUTH_TOKEN` and it will be passed automatically by the workflow.
 
 ## 🔍 **Writing Tests**
 

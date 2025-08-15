@@ -18,7 +18,15 @@ public class SystemProperties {
                 throw new IllegalArgumentException("system.properties not found");
             }
             systemProps.load(appConfigIn);
-            systemProps.forEach((key, value) -> logger.info(key + ": " + value));
+            systemProps.forEach((key, value) -> {
+                String keyStr = String.valueOf(key);
+                String valueStr = String.valueOf(value);
+                if (keyStr.toLowerCase().contains("token") || keyStr.toLowerCase().contains("password") || keyStr.toLowerCase().contains("secret")) {
+                    logger.info(keyStr + ": ******");
+                } else {
+                    logger.info(keyStr + ": " + valueStr);
+                }
+            });
         } catch (IOException e) {
             logger.error(e);
             throw new IllegalArgumentException(e);

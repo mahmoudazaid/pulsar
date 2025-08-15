@@ -61,7 +61,7 @@ public class APIGlobalHooks {
             
             logger.info("API configuration validation passed");
             logger.info("Base URL: " + baseUrl);
-            logger.info("Auth token configured: " + (authToken.length() > 20 ? authToken.substring(0, 20) + "..." : authToken));
+            logger.info("Auth token configured: [REDACTED]");
             
         } catch (Exception e) {
             logger.error("API configuration validation failed: " + e.getMessage());

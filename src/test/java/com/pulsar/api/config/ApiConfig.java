@@ -112,7 +112,35 @@ public class ApiConfig {
      * Get authentication token
      */
     public static String getAuthToken() {
-        return getString("api.auth.token");
+        String tokenFromSystemProperty = System.getProperty("api.auth.token");
+        if (tokenFromSystemProperty != null && !tokenFromSystemProperty.trim().isEmpty()) {
+            return normalizeAuthToken(tokenFromSystemProperty);
+        }
+
+        String tokenFromEnv = System.getenv("API_AUTH_TOKEN");
+        if ((tokenFromEnv == null || tokenFromEnv.trim().isEmpty())) {
+            tokenFromEnv = System.getenv("GOREST_API_TOKEN");
+        }
+        if (tokenFromEnv != null && !tokenFromEnv.trim().isEmpty()) {
+            return normalizeAuthToken(tokenFromEnv);
+        }
+
+        return normalizeAuthToken(getString("api.auth.token"));
+    }
+
+    private static String normalizeAuthToken(String rawToken) {
+        if (rawToken == null) {
+            return null;
+        }
+        String token = rawToken.trim();
+        if (token.isEmpty()) {
+            return token;
+        }
+        if (token.toLowerCase().startsWith("bearer ")) {
+            return token;
+        }
+        String authType = getString("api.auth.type", "Bearer");
+        return authType + " " + token;
     }
     
     /**
