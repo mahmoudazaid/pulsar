@@ -69,13 +69,7 @@ public class CartStepDef extends AbstractStepDef {
     @And("the cart count should show {string}")
     public void theCartCountShouldShow(String count) {
         logger.info("Verifying cart count: " + count);
-        try {
-            getCartPage().waitForCartUpdate();
-        }catch (Exception e) {
-            // Since we're testing against a placeholder URL, simulate the behavior
-            logger.info("Simulating cart verification for placeholder URL");
-            Assert.assertEquals(getCartPage().getCartCount(), count , "the cart count should show"+count);
-        }
-
+        getCartPage().waitForCartUpdate();
+        Assert.assertEquals(getCartPage().getCartCount(), count , "the cart count should show"+count);
     }
 }

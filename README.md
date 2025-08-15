@@ -104,9 +104,11 @@ pulsar/
 │       │   └── com/pulsar/
 │       │       ├── cucumber/
 │       │       │   ├── hooks/
-│       │       │   │   ├── UIGlobalHooks.java        # UI browser management
-│       │       │   │   ├── UIScenarioHooks.java      # UI WebDriver operations
-│       │       │   │   └── APIGlobalHooks.java       # API configuration
+│       │       │   │   ├── ui/                        # UI hooks
+│       │       │   │   │   ├── UIGlobalHooks.java     # UI browser management
+│       │       │   │   │   └── UIScenarioHooks.java   # UI WebDriver operations
+│       │       │   │   └── api/                       # API hooks
+│       │       │   │       └── APIGlobalHooks.java    # API configuration
 │       │       │   ├── runner/
 │       │       │   │   ├── TestRunner.java          # Combined tests
 │       │       │   │   ├── UICucumberRunner.java    # UI tests only
@@ -202,7 +204,8 @@ mvn clean compile test-compile
 # UI tests (with browser)
 mvn clean test -Dtest=UICucumberRunner
 
-# API tests (no browser)
+# API tests (no browser) - requires token
+export API_AUTH_TOKEN="<your-gorest-token>"
 mvn clean test -Dtest=APICucumberRunner
 
 # All tests (runs both UI and API sequentially)
@@ -259,9 +262,20 @@ Create run configurations in your IDE:
 After running tests, reports are generated in:
 ```
 target/cucumber-reports/
-├── ui-cucumber.html           # UI test reports
-├── api-cucumber.html          # API test reports
-└── combined-cucumber.html     # Combined test reports
+├── ui-cucumber.html           # UI test report
+├── api-cucumber.html          # API test report
+└── *.json / *.xml             # JSON/JUnit outputs
+```
+
+### **Allure Reports (recommended)**
+- Live server:
+```bash
+mvn allure:serve -Dallure.results.directory=allure-results
+```
+- Static site:
+```bash
+mvn allure:report
+open target/site/allure-maven-plugin/index.html
 ```
 
 

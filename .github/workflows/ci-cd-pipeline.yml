@@ -1,5 +1,16 @@
 name: BDD UI-API Framework CI/CD Pipeline
 
+# Permissions required for GitHub Pages deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Ensure only one Pages deployment runs at a time
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 # Trigger pipeline on push to master branch and pull requests
 on:
   push:
@@ -67,6 +78,15 @@ jobs:
       # Run API tests
       - name: 🧪 Run API tests
         run: mvn clean test -Dtest=APICucumberRunner -Dapi.auth.token=${API_AUTH_TOKEN} -q
+
+      # Upload Allure results (if any)
+      - name: 📦 Upload Allure results (API)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-api
+          path: allure-results/
+          if-no-files-found: ignore
         
       # Upload API test results
       - name: 📤 Upload API test results
@@ -135,6 +155,15 @@ jobs:
       # Run UI tests
       - name: 🧪 Run UI tests
         run: mvn clean test -Dtest=UICucumberRunner -q
+
+      # Upload Allure results (if any)
+      - name: 📦 Upload Allure results (UI)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-ui
+          path: allure-results/
+          if-no-files-found: ignore
         
       # Upload UI test results
       - name: 📤 Upload UI test results
@@ -207,3 +236,62 @@ jobs:
           name: test-summary
           path: test-summary.md
           retention-days: 90 
+
+  # Build Allure report from merged results and publish to GitHub Pages
+  allure-report:
+    name: 📈 Build Allure Report
+    runs-on: ubuntu-latest
+    needs: [api-tests, ui-tests]
+    if: always()
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: ☕ Setup Java 19
+        uses: actions/setup-java@v4
+        with:
+          java-version: '19'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: 📥 Download Allure results (API)
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results-api
+          path: allure-merge/api
+        continue-on-error: true
+
+      - name: 📥 Download Allure results (UI)
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results-ui
+          path: allure-merge/ui
+        continue-on-error: true
+
+      - name: 🔄 Merge Allure results
+        run: |
+          mkdir -p allure-results
+          if [ -d "allure-merge/api" ]; then cp -R allure-merge/api/* allure-results/ || true; fi
+          if [ -d "allure-merge/ui" ]; then cp -R allure-merge/ui/* allure-results/ || true; fi
+          echo "Merged Allure results:"; ls -la allure-results || true
+
+      - name: 🧱 Build Allure static report
+        run: mvn -q allure:report
+
+      - name: 📤 Upload Pages artifact (Allure)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: target/site/allure-maven-plugin
+
+  deploy-pages:
+    name: 🚀 Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: allure-report
+    if: always()
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 🚀 Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

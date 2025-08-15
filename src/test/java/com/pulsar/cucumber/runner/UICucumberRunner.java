@@ -6,12 +6,13 @@ import org.testng.annotations.DataProvider;
 
 @CucumberOptions(
     features = "src/test/resources/features/ui",
-    glue = {"com.pulsar.cucumber.stepDef.ui", "com.pulsar.cucumber.hooks"},
+    glue = {"com.pulsar.cucumber.stepDef.ui", "com.pulsar.cucumber.hooks.ui"},
     plugin = {
         "pretty",
         "html:target/cucumber-reports/ui-cucumber.html",
         "json:target/cucumber-reports/ui-cucumber.json",
-        "junit:target/cucumber-reports/ui-cucumber.xml"
+        "junit:target/cucumber-reports/ui-cucumber.xml",
+        "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
     },
     monochrome = true,
     tags = "@ui or @cart",

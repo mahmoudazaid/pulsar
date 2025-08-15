@@ -1,4 +1,4 @@
-package com.pulsar.cucumber.hooks;
+package com.pulsar.cucumber.hooks.ui;
 
 import com.pulsar.cucumber.runner.TestState;
 import com.pulsar.selenium.driver.BrowserFactory;
@@ -6,8 +6,6 @@ import com.pulsar.selenium.driver.CustomWebDriver;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.cucumber.java.Scenario;
-
 import org.apache.log4j.Logger;
 
 public class UIGlobalHooks {
@@ -52,3 +50,5 @@ public class UIGlobalHooks {
         }
     }
 }
+
+

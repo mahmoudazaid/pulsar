@@ -24,6 +24,11 @@ target/extent-report*/
 allure-results/
 allure-report/
 
+# Allure local cache and generated site
+.allure/
+target/site/allure-maven-plugin/
+target/allure-results/
+
 # Maven wrapper (keep scripts, ignore jar + timings)
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar

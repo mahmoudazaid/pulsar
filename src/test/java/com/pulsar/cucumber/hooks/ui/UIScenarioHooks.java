@@ -1,4 +1,4 @@
-package com.pulsar.cucumber.hooks;
+package com.pulsar.cucumber.hooks.ui;
 
 import com.pulsar.cucumber.runner.TestState;
 import com.pulsar.utils.SystemProperties;
@@ -8,6 +8,9 @@ import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 
 import org.apache.log4j.Logger;
+import io.qameta.allure.Allure;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 
 public class UIScenarioHooks {
     private static final Logger logger = Logger.getLogger(UIScenarioHooks.class.getName());
@@ -54,8 +57,11 @@ public class UIScenarioHooks {
         logger.info("screenshot");
         if (scenario.isFailed()) {
             try {
-                // Don't quit the browser on failure - let it continue for other tests
-                logger.info("Test failed but keeping browser alive for other tests");
+                if (state.getDriver() != null && state.getDriver().getSeleniumWebDriver() instanceof TakesScreenshot) {
+                    byte[] screenshot = ((TakesScreenshot) state.getDriver().getSeleniumWebDriver()).getScreenshotAs(OutputType.BYTES);
+                    Allure.addAttachment("Failure Screenshot", "image/png", new java.io.ByteArrayInputStream(screenshot), ".png");
+                }
+                logger.info("Test failed; artifacts attached to Allure");
             } catch (Exception ex) {
                 logger.error(String.format("Error handling test failure: %s", ex.getMessage()));
             }
@@ -80,3 +86,5 @@ public class UIScenarioHooks {
         logger.info(msg);
     }
 }
+
+
