@@ -8,7 +8,6 @@ import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 
 import org.apache.log4j.Logger;
-import io.qameta.allure.Allure;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
@@ -59,13 +58,26 @@ public class UIScenarioHooks {
             try {
                 if (state.getDriver() != null && state.getDriver().getSeleniumWebDriver() instanceof TakesScreenshot) {
                     byte[] screenshot = ((TakesScreenshot) state.getDriver().getSeleniumWebDriver()).getScreenshotAs(OutputType.BYTES);
-                    Allure.addAttachment("Failure Screenshot", "image/png", new java.io.ByteArrayInputStream(screenshot), ".png");
+                    scenario.attach(screenshot, "image/png", "Failure Screenshot");
                 }
-                logger.info("Test failed; artifacts attached to Allure");
+                // GIF capture removed
+                // Attach a small HTML snippet for context
+                try {
+                    String html = "<html><body><h3>Failure Context</h3><p>See screenshot and GIF attachments above.</p></body></html>";
+                    scenario.attach(html.getBytes(java.nio.charset.StandardCharsets.UTF_8), "text/html", "context.html");
+                } catch (Exception ig) {
+                    logger.warn("Could not attach HTML: " + ig.getMessage());
+                }
+                logger.info("Test failed; artifacts attached to report");
             } catch (Exception ex) {
                 logger.error(String.format("Error handling test failure: %s", ex.getMessage()));
             }
         }
+        // Always add a tiny debug attachment to verify adapter wiring
+        try {
+            byte[] hello = "debug: after hook executed".getBytes(java.nio.charset.StandardCharsets.UTF_8);
+            scenario.attach(hello, "text/plain", "debug.txt");
+        } catch (Exception ignored) {}
     }
 
     @After(order = 2)

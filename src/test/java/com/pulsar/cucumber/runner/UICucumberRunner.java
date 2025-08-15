@@ -11,8 +11,7 @@ import org.testng.annotations.DataProvider;
         "pretty",
         "html:target/cucumber-reports/ui-cucumber.html",
         "json:target/cucumber-reports/ui-cucumber.json",
-        "junit:target/cucumber-reports/ui-cucumber.xml",
-        "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
+        "junit:target/cucumber-reports/ui-cucumber.xml"
     },
     monochrome = true,
     tags = "@ui or @cart",

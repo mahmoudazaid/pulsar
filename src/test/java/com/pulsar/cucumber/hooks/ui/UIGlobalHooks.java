@@ -36,7 +36,7 @@ public class UIGlobalHooks {
         logger.info("driver set");
     }
 
-    @After(order = 7)
+    @After(order = 0)
     public void cleanupAfterAllTests() {
         logger.info("All tests completed, cleaning up browser");
         if (globalDriver != null) {

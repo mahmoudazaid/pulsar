@@ -2,7 +2,6 @@ package com.pulsar.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pulsar.api.config.ApiConfig;
-import io.qameta.allure.Allure;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import java.net.http.HttpClient;
@@ -42,9 +41,7 @@ public abstract class BaseApiTest {
             System.out.println("📤 " + method + " " + url);
             if (body != null && !body.isEmpty()) {
                 System.out.println("📝 Request Body: " + body);
-                try {
-                    Allure.addAttachment("API Request - " + method + " " + url, "application/json", new java.io.ByteArrayInputStream(body.getBytes(java.nio.charset.StandardCharsets.UTF_8)), ".json");
-                } catch (Exception ignored) {}
+                // No-op: keep console logs only; adapters will pick up via Cucumber hooks if needed
             }
         }
     }
@@ -57,9 +54,7 @@ public abstract class BaseApiTest {
             System.out.println("📥 Response Status: " + statusCode);
             if (body != null && !body.isEmpty()) {
                 System.out.println("📄 Response Body: " + body);
-                try {
-                    Allure.addAttachment("API Response - Status " + statusCode, "application/json", new java.io.ByteArrayInputStream(body.getBytes(java.nio.charset.StandardCharsets.UTF_8)), ".json");
-                } catch (Exception ignored) {}
+                // No-op: keep console logs only
             }
         }
     }

@@ -267,16 +267,10 @@ target/cucumber-reports/
 └── *.json / *.xml             # JSON/JUnit outputs
 ```
 
-### **Allure Reports (recommended)**
-- Live server:
-```bash
-mvn allure:serve -Dallure.results.directory=allure-results
-```
-- Static site:
-```bash
-mvn allure:report
-open target/site/allure-maven-plugin/index.html
-```
+### **Cucumber HTML Reports (recommended)**
+- UI HTML: `target/cucumber-reports/ui-cucumber.html`
+- API HTML: `target/cucumber-reports/api-cucumber.html`
+- Aggregated HTML (built at `verify` phase via Maven Cucumber Reporting plugin)
 
 
 ## **Configuration**

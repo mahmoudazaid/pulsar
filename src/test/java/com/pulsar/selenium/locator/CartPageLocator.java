@@ -10,7 +10,7 @@ public enum CartPageLocator implements Locator, I18nLocator {
     PRODUCT_CATALOG(By.xpath("//div[@class='shelf-container']")),
     ADD_TO_CART_BUTTON("//p[@class='shelf-item__title' and (text()='%s')]/..//div[contains(text(),'Add to cart')]"),
     CART_ITEM("//div[@class='float-cart__content']//*[text()='%s']"),
-    CART_COUNT(By.xpath("//span[@class='bag__quantity'"));
+    CART_COUNT(By.xpath("//span[@class='bag__quantity']"));
 
     static final Logger logger = Logger.getLogger(CartPageLocator.class.getName());
     private By locator;
