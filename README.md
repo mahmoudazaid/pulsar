@@ -15,15 +15,14 @@
 - [Use Cases & Applications](#-use-cases--applications)
 - [Why Choose Pulsar?](#-why-choose-pulsar)
 - [Performance & Scalability](#-performance--scalability)
-- [Project Structure](#-project-structure)
+- [Project Structure](#project-structure)
 - [Prerequisites](#-prerequisites)
 - [Getting Started with Pulsar](#-getting-started-with-pulsar)
 - [Setup Instructions](#-setup-instructions)
 - [Running Tests](#-running-tests)
 - [Test Configurations Explained](#-test-configurations-explained)
-- [Tagging Strategy](#-tagging-strategy)
 - [Test Reports](#-test-reports)
-- [Configuration](#-configuration)
+- [Configuration](#configuration)
 - [Writing Tests](#-writing-tests)
 - [Troubleshooting](#-troubleshooting)
 - [Benefits](#-benefits)
@@ -59,12 +58,9 @@ This framework provides a **professional-grade testing solution** that combines:
 - **🎯 Dedicated Run Configurations** - Separate configurations for UI, API, and combined tests
 - **📊 HTML Reporting** - Comprehensive test reports with Cucumber integration
 - **🏗️ Maven Integration** - Standard Maven build system with dependency management
-- **🎨 Modern IDE Support** - Optimized for Cursor IDE with VS Code compatibility
 - **🏷️ Tag-based Testing** - Organize and run tests by categories (@ui, @api, @smoke, etc.)
 - **🌐 Cross-Browser Support** - Chrome, Firefox, Safari, and Edge
-- **📱 Responsive Testing** - Mobile and desktop viewport testing
 - **🔒 Parallel Execution** - Run multiple tests simultaneously
-- **📝 Data-Driven Testing** - Support for external test data files
 
 ## 🎯 **Use Cases & Applications**
 
@@ -95,7 +91,7 @@ This framework provides a **professional-grade testing solution** that combines:
 - **🌐 Cross-Browser** - Support for all major browsers
 - **📊 Resource Efficient** - Minimal memory and CPU usage
 
-## 🏗️ **Project Structure**
+## **Project Structure**
 
 ```
 pulsar/
@@ -160,7 +156,7 @@ pulsar/
 
 - **Java 11+** - JDK 11 or higher
 - **Maven 3.6+** - Apache Maven for build management
-- **Cursor IDE** - Modern IDE with Java and Cucumber extensions
+- **IDE** - Modern IDE with Java and Cucumber extensions
 - **Git** - Version control system
 
 ## 🚀 **Getting Started with Pulsar**
@@ -257,24 +253,6 @@ Create run configurations in your IDE:
 - **Use Case:** When you want to run the complete test suite
 - **Features:** Executes all tests from all feature folders
 
-## 🏷️ **Tagging Strategy**
-
-### **UI Tests**
-- `@ui` - All UI-related tests
-- `@cart` - Cart functionality tests
-- `@smoke` - Smoke test scenarios
-
-### **API Tests**
-- `@api` - All API-related tests
-- `@create` - Create operations
-- `@read` - Read operations
-- `@update` - Update operations
-- `@delete` - Delete operations
-
-### **General Tags**
-- `@smoke` - Critical path tests
-- `@ignore` - Tests to skip
-
 ## 📊 **Test Reports**
 
 ### **HTML Reports**
@@ -286,16 +264,8 @@ target/cucumber-reports/
 └── combined-cucumber.html     # Combined test reports
 ```
 
-### **Opening Reports**
-```bash
-# Open reports in browser
-./open-reports.sh
 
-# Or navigate manually to:
-# target/cucumber-reports/
-```
-
-## ⚙️ **Configuration**
+## **Configuration**
 
 ### **Environment Configuration**
 All configuration is centralized in `src/main/resources/system.properties`:
