@@ -1,259 +1,259 @@
-name: BDD UI-API Framework CI/CD Pipeline
+# name: BDD UI-API Framework CI/CD Pipeline
 
-# Permissions required for GitHub Pages deployment
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+# # Permissions required for GitHub Pages deployment
+# permissions:
+#   contents: read
+#   pages: write
+#   id-token: write
 
-# Ensure only one Pages deployment runs at a time
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
+# # Ensure only one Pages deployment runs at a time
+# concurrency:
+#   group: "pages"
+#   cancel-in-progress: true
 
-# Trigger pipeline on push to master branch and pull requests
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-  schedule:
-    # Run daily at 2:00 AM UTC
-    - cron: '0 2 * * *'
-  workflow_dispatch: # Allow manual trigger
+# # Trigger pipeline on push to master branch and pull requests
+# on:
+#   push:
+#     branches: [ master ]
+#   pull_request:
+#     branches: [ master ]
+#   schedule:
+#     # Run daily at 2:00 AM UTC
+#     - cron: '0 2 * * *'
+#   workflow_dispatch: # Allow manual trigger
 
-# Environment variables
-env:
-  MAVEN_OPTS: -Dfile.encoding=UTF-8
-  JAVA_OPTS: -Xmx2g -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+# # Environment variables
+# env:
+#   MAVEN_OPTS: -Dfile.encoding=UTF-8
+#   JAVA_OPTS: -Xmx2g -XX:+TieredCompilation -XX:TieredStopAtLevel=1
 
-# Jobs configuration
-jobs:
-  # API Tests Job
-  api-tests:
-    name: 🔌 API Tests
-    runs-on: ubuntu-latest
-    env:
-      API_AUTH_TOKEN: ${{ secrets.API_AUTH_TOKEN }}
+# # Jobs configuration
+# jobs:
+#   # API Tests Job
+#   api-tests:
+#     name: 🔌 API Tests
+#     runs-on: ubuntu-latest
+#     env:
+#       API_AUTH_TOKEN: ${{ secrets.API_AUTH_TOKEN }}
     
-    steps:
-      # Checkout code
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
+#     steps:
+#       # Checkout code
+#       - name: 📥 Checkout code
+#         uses: actions/checkout@v4
         
-      # Setup Java 19
-      - name: ☕ Setup Java 19
-        uses: actions/setup-java@v4
-        with:
-          java-version: '19'
-          distribution: 'temurin'
-          cache: 'maven'
+#       # Setup Java 19
+#       - name: ☕ Setup Java 19
+#         uses: actions/setup-java@v4
+#         with:
+#           java-version: '19'
+#           distribution: 'temurin'
+#           cache: 'maven'
           
-      # Cache Maven dependencies
-      - name: 📦 Cache Maven dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+#       # Cache Maven dependencies
+#       - name: 📦 Cache Maven dependencies
+#         uses: actions/cache@v4
+#         with:
+#           path: ~/.m2
+#           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+#           restore-keys: ${{ runner.os }}-m2
           
-      # Display versions
-      - name: ℹ️ Display versions
-        run: |
-          echo "🔍 Environment Information:"
-          echo "=========================="
-          echo "Java version:"
-          java -version
-          echo ""
-          echo "Maven version:"
-          mvn -version
-          echo ""
-          echo "Current directory:"
-          pwd
+#       # Display versions
+#       - name: ℹ️ Display versions
+#         run: |
+#           echo "🔍 Environment Information:"
+#           echo "=========================="
+#           echo "Java version:"
+#           java -version
+#           echo ""
+#           echo "Maven version:"
+#           mvn -version
+#           echo ""
+#           echo "Current directory:"
+#           pwd
           
-      # Compile project
-      - name: 🔨 Compile project
-        run: mvn clean compile test-compile -q
+#       # Compile project
+#       - name: 🔨 Compile project
+#         run: mvn clean compile test-compile -q
         
-      # Run API tests
-      - name: 🧪 Run API tests
-        run: mvn clean test -Dtest=APICucumberRunner -Dapi.auth.token=${API_AUTH_TOKEN} -q
+#       # Run API tests
+#       - name: 🧪 Run API tests
+#         run: mvn clean test -Dtest=APICucumberRunner -Dapi.auth.token=${API_AUTH_TOKEN} -q
 
-  # UI Tests Job
-  ui-tests:
-    name: 🖥️ UI Tests
-    runs-on: ubuntu-latest
-    env:
-      API_AUTH_TOKEN: ${{ secrets.API_AUTH_TOKEN }}
+#   # UI Tests Job
+#   ui-tests:
+#     name: 🖥️ UI Tests
+#     runs-on: ubuntu-latest
+#     env:
+#       API_AUTH_TOKEN: ${{ secrets.API_AUTH_TOKEN }}
     
-    steps:
-      # Checkout code
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
+#     steps:
+#       # Checkout code
+#       - name: 📥 Checkout code
+#         uses: actions/checkout@v4
         
-      # Setup Java 19
-      - name: ☕ Setup Java 19
-        uses: actions/setup-java@v4
-        with:
-          java-version: '19'
-          distribution: 'temurin'
-          cache: 'maven'
+#       # Setup Java 19
+#       - name: ☕ Setup Java 19
+#         uses: actions/setup-java@v4
+#         with:
+#           java-version: '19'
+#           distribution: 'temurin'
+#           cache: 'maven'
           
-      # Cache Maven dependencies
-      - name: 📦 Cache Maven dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+#       # Cache Maven dependencies
+#       - name: 📦 Cache Maven dependencies
+#         uses: actions/cache@v4
+#         with:
+#           path: ~/.m2
+#           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+#           restore-keys: ${{ runner.os }}-m2
           
-      # Display versions
-      - name: ℹ️ Display versions
-        run: |
-          echo "🔍 Environment Information:"
-          echo "=========================="
-          echo "Java version:"
-          java -version
-          echo ""
-          echo "Maven version:"
-          mvn -version
-          echo ""
-          echo "Current directory:"
-          pwd
+#       # Display versions
+#       - name: ℹ️ Display versions
+#         run: |
+#           echo "🔍 Environment Information:"
+#           echo "=========================="
+#           echo "Java version:"
+#           java -version
+#           echo ""
+#           echo "Maven version:"
+#           mvn -version
+#           echo ""
+#           echo "Current directory:"
+#           pwd
           
-      # Compile project
-      - name: 🔨 Compile project
-        run: mvn clean compile test-compile -q
+#       # Compile project
+#       - name: 🔨 Compile project
+#         run: mvn clean compile test-compile -q
         
-      # Run UI tests
-      - name: 🧪 Run UI tests
-        run: mvn clean test -Dtest=UICucumberRunner -q
+#       # Run UI tests
+#       - name: 🧪 Run UI tests
+#         run: mvn clean test -Dtest=UICucumberRunner -q
 
-      # Upload Cucumber HTML (UI)
+#       # Upload Cucumber HTML (UI)
         
-      # Upload UI test results
-      - name: 📤 Upload UI test results
-        uses: actions/upload-artifact@v4
-        with:
-          name: ui-test-results
-          path: |
-            target/cucumber-reports/
-            target/surefire-reports/
-          retention-days: 30
+#       # Upload UI test results
+#       - name: 📤 Upload UI test results
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: ui-test-results
+#           path: |
+#             target/cucumber-reports/
+#             target/surefire-reports/
+#           retention-days: 30
           
-      # Upload UI HTML report
-      - name: 📊 Upload UI HTML report
-        uses: actions/upload-artifact@v4
-        with:
-          name: ui-html-report
-          path: target/cucumber-reports/ui-cucumber.html
-          retention-days: 30
+#       # Upload UI HTML report
+#       - name: 📊 Upload UI HTML report
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: ui-html-report
+#           path: target/cucumber-reports/ui-cucumber.html
+#           retention-days: 30
 
   
 
-  # Deploy combined Masterthought report to GitHub Pages
-  deploy-pages:
-    name: 🚀 Deploy Reports to GitHub Pages
-    runs-on: ubuntu-latest
-    needs: [api-tests, ui-tests]
-    if: always()
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
+#   # Deploy combined Masterthought report to GitHub Pages
+#   deploy-pages:
+#     name: 🚀 Deploy Reports to GitHub Pages
+#     runs-on: ubuntu-latest
+#     needs: [api-tests, ui-tests]
+#     if: always()
+#     environment:
+#       name: github-pages
+#       url: ${{ steps.deployment.outputs.page_url }}
+#     steps:
+#       - name: 📥 Checkout code
+#         uses: actions/checkout@v4
 
-      - name: ☕ Setup Java 19
-        uses: actions/setup-java@v4
-        with:
-          java-version: '19'
-          distribution: 'temurin'
-          cache: 'maven'
+#       - name: ☕ Setup Java 19
+#         uses: actions/setup-java@v4
+#         with:
+#           java-version: '19'
+#           distribution: 'temurin'
+#           cache: 'maven'
 
-      - name: 🔨 Build and generate combined report (UI + API)
-        run: mvn -P dev -Dmaven.test.failure.ignore=true -q clean test verify
+#       - name: 🔨 Build and generate combined report (UI + API)
+#         run: mvn -P dev -Dmaven.test.failure.ignore=true -q clean test verify
 
-      - name: 🪄 Prepare Pages structure (root index + per-report index)
-        run: |
-          ROOT_DIR=target/reports
-          UI_DIR=$ROOT_DIR/ui/cucumber-html-reports
-          API_DIR=$ROOT_DIR/api/cucumber-html-reports
-          mkdir -p "$ROOT_DIR"
-          # Per-report index pages
-          if [ -f "$UI_DIR/overview-features.html" ]; then
-            cp "$UI_DIR/overview-features.html" "$UI_DIR/index.html"
-          fi
-          if [ -f "$API_DIR/overview-features.html" ]; then
-            cp "$API_DIR/overview-features.html" "$API_DIR/index.html"
-          fi
-          # Root index with links to both reports
-          cat > "$ROOT_DIR/index.html" << 'EOF'
-          <!doctype html>
-          <html lang="en">
-          <head>
-            <meta charset="utf-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <title>Pulsar Test Reports</title>
-            <style>
-              :root{
-                --bg:#ffffff;              /* match Masterthought light theme */
-                --text:#333333;            /* body text */
-                --muted:#6c757d;           /* muted text */
-                --border:#e5e7eb;          /* light borders */
-                --primary:#337ab7;         /* bootstrap link blue */
-                --success:#5cb85c;         /* bootstrap success green */
-                --shadow:rgba(0,0,0,.08);
-              }
-              *{box-sizing:border-box}
-              body{margin:0;min-height:100vh;background:linear-gradient(180deg,#fafbfc, var(--bg));
-                   color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
-              .wrap{max-width:1200px;margin:0 auto;padding:32px}
-              header{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;border-bottom:1px solid var(--border);padding-bottom:16px}
-              .title{font-size:34px;font-weight:800;letter-spacing:.2px}
-              .subtitle{color:var(--muted);font-size:14px}
-              .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:28px}
-              @media (max-width:900px){.grid{grid-template-columns:1fr}}
-              .card{display:flex;align-items:center;justify-content:center;height:180px;background:#fff;border:1px solid var(--border);border-radius:16px;padding:28px;box-shadow:0 12px 28px var(--shadow);text-decoration:none;color:inherit;transition:transform .12s ease, box-shadow .12s ease}
-              .card:hover{transform:translateY(-2px);box-shadow:0 18px 36px var(--shadow)}
-              .label{display:flex;align-items:center;gap:12px}
-              .emoji{font-size:28px}
-              .name{font-size:24px;font-weight:800}
-              footer{margin-top:30px;color:var(--muted);font-size:12px;text-align:center}
-            </style>
-          </head>
-          <body>
-            <div class="wrap">
-              <header>
-                <div>
-                  <div class="title">Pulsar Test Reports</div>
-                  <div class="subtitle">UI and API results (Masterthought Cucumber HTML)</div>
-                </div>
-              </header>
-              <div class="grid">
-                <a class="card" href="ui/cucumber-html-reports/index.html">
-                  <div class="label"><span class="emoji">🖥️</span><span class="name">UI report</span></div>
-                </a>
-                <a class="card" href="api/cucumber-html-reports/index.html">
-                  <div class="label"><span class="emoji">🔌</span><span class="name">API report</span></div>
-                </a>
-              </div>
-              <footer>
-                Generated by CI • Masterthought Cucumber HTML • Powered by Pulsar
-              </footer>
-            </div>
-          </body>
-          </html>
-          EOF
+#       - name: 🪄 Prepare Pages structure (root index + per-report index)
+#         run: |
+#           ROOT_DIR=target/reports
+#           UI_DIR=$ROOT_DIR/ui/cucumber-html-reports
+#           API_DIR=$ROOT_DIR/api/cucumber-html-reports
+#           mkdir -p "$ROOT_DIR"
+#           # Per-report index pages
+#           if [ -f "$UI_DIR/overview-features.html" ]; then
+#             cp "$UI_DIR/overview-features.html" "$UI_DIR/index.html"
+#           fi
+#           if [ -f "$API_DIR/overview-features.html" ]; then
+#             cp "$API_DIR/overview-features.html" "$API_DIR/index.html"
+#           fi
+#           # Root index with links to both reports
+#           cat > "$ROOT_DIR/index.html" << 'EOF'
+#           <!doctype html>
+#           <html lang="en">
+#           <head>
+#             <meta charset="utf-8" />
+#             <meta name="viewport" content="width=device-width, initial-scale=1" />
+#             <title>Pulsar Test Reports</title>
+#             <style>
+#               :root{
+#                 --bg:#ffffff;              /* match Masterthought light theme */
+#                 --text:#333333;            /* body text */
+#                 --muted:#6c757d;           /* muted text */
+#                 --border:#e5e7eb;          /* light borders */
+#                 --primary:#337ab7;         /* bootstrap link blue */
+#                 --success:#5cb85c;         /* bootstrap success green */
+#                 --shadow:rgba(0,0,0,.08);
+#               }
+#               *{box-sizing:border-box}
+#               body{margin:0;min-height:100vh;background:linear-gradient(180deg,#fafbfc, var(--bg));
+#                    color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+#               .wrap{max-width:1200px;margin:0 auto;padding:32px}
+#               header{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;border-bottom:1px solid var(--border);padding-bottom:16px}
+#               .title{font-size:34px;font-weight:800;letter-spacing:.2px}
+#               .subtitle{color:var(--muted);font-size:14px}
+#               .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:28px}
+#               @media (max-width:900px){.grid{grid-template-columns:1fr}}
+#               .card{display:flex;align-items:center;justify-content:center;height:180px;background:#fff;border:1px solid var(--border);border-radius:16px;padding:28px;box-shadow:0 12px 28px var(--shadow);text-decoration:none;color:inherit;transition:transform .12s ease, box-shadow .12s ease}
+#               .card:hover{transform:translateY(-2px);box-shadow:0 18px 36px var(--shadow)}
+#               .label{display:flex;align-items:center;gap:12px}
+#               .emoji{font-size:28px}
+#               .name{font-size:24px;font-weight:800}
+#               footer{margin-top:30px;color:var(--muted);font-size:12px;text-align:center}
+#             </style>
+#           </head>
+#           <body>
+#             <div class="wrap">
+#               <header>
+#                 <div>
+#                   <div class="title">Pulsar Test Reports</div>
+#                   <div class="subtitle">UI and API results (Masterthought Cucumber HTML)</div>
+#                 </div>
+#               </header>
+#               <div class="grid">
+#                 <a class="card" href="ui/cucumber-html-reports/index.html">
+#                   <div class="label"><span class="emoji">🖥️</span><span class="name">UI report</span></div>
+#                 </a>
+#                 <a class="card" href="api/cucumber-html-reports/index.html">
+#                   <div class="label"><span class="emoji">🔌</span><span class="name">API report</span></div>
+#                 </a>
+#               </div>
+#               <footer>
+#                 Generated by CI • Masterthought Cucumber HTML • Powered by Pulsar
+#               </footer>
+#             </div>
+#           </body>
+#           </html>
+#           EOF
 
-      - name: ⚙️ Configure GitHub Pages
-        uses: actions/configure-pages@v5
+#       - name: ⚙️ Configure GitHub Pages
+#         uses: actions/configure-pages@v5
 
-      - name: 📦 Upload Pages artifact (Masterthought reports)
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: target/reports
+#       - name: 📦 Upload Pages artifact (Masterthought reports)
+#         uses: actions/upload-pages-artifact@v3
+#         with:
+#           path: target/reports
 
-      - name: 🚀 Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+#       - name: 🚀 Deploy to GitHub Pages
+#         id: deployment
+#         uses: actions/deploy-pages@v4
